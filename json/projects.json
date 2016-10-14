@@ -1,0 +1,8 @@
+[
+  {
+    "id" : "000",
+    "name" : "Senior Design Judging Form",
+    "advisors" : ["000", "001"],
+    "members" : ["Blake Tsuzaki", "Christina Ciardella", "Patrick Miller"]
+  }
+]

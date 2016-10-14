@@ -1,0 +1,14 @@
+[
+  {
+    "id" : "000",
+    "name" : "Bucky Bronco",
+    "auth_id" : "lmao",
+    "projects" : ["000"]
+  },
+  {
+    "id" : "001",
+    "name" : "Darren Atkinson",
+    "auth_id" : "ghjk",
+    "projects" : ["000"]
+  }
+]

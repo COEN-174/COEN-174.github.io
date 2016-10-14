@@ -1,0 +1,12 @@
+[
+  {
+    "id" : "000",
+    "name" : "Computer Engineering",
+    "short_name" : "COEN"
+  },
+  {
+    "id" : "001",
+    "name" : "Electrical Engineering",
+    "short_name" : "ELEN"
+  }
+]

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <base href="..">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
+    <link rel="import" href="common.html">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div id="container">
+        <paper-input id="passcode_input" label="Passcode"></paper-input>
+    </div>
+    <script>
+        document.querySelector('paper-input').addEventListener('keyup', function(event) {
+            searchJudges(event.target.value, function(result) {
+                if (result) {
+                    console.log(result);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

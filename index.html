@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Senior Design Judging</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
+    <link rel="import" href="common.html">
+</head>
+<body>
+    <script>
+        if (typeof(Storage) == "undefined") { }
+        if (localStorage.getItem("user_id") == null) {
+            window.location = "./login";
+        }
+    </script>
+
+</body>
+</html>
