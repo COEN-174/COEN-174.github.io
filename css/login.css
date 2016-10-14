@@ -1,11 +1,69 @@
 #container {
-    min-height: 400px;
-    max-width: 500px;
+    min-height: 200px;
+    max-width: 600px;
     position: absolute;
     margin: auto;
     left: 0;
     right: 0;
-    top: 10%;
+    top: 30%;
+}
+
+#submit_button {
+    margin: auto;
+    left: 10px;
+    bottom: -10px;
+    vertical-align: text-bottom;
+    -webkit-border-radius:50%;
+    -moz-border-radius:50%;
+    border-radius:50%;
+}
+
+@keyframes enable_submit {
+    from {}
+    to {background-color: #3F51B5;
+        color: white;}
+}
+
+.submit_button_enabled {
+    animation-name: enable_submit;
+    animation-duration: 0.2s;
+    -webkit-animation-fill-mode:forwards;
+    -moz-animation-fill-mode:forwards;
+    -ms-animation-fill-mode:forwards;
+    animation-fill-mode:forwards;
+}
+
+#rotate_container {
+    padding: 3em 0 0 0;
+    text-align: center;
+
+    -webkit-transition: -webkit-transform .33s;
+    transition: transform .33s;
+
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+.container_rotated{
+    -webkit-transform: rotateX(90deg);
+    transform: rotateX(90deg);
+}
+
+.container_initial{
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+}
+
+#welcome_banner {
+    -webkit-transform: translateZ(30px);
+    transform: translateZ(30px);
+}
+#name_banner {
+    -webkit-transform: rotateX(-90deg) translateZ(-10px);
+    transform: rotateX(-90deg) translateZ(-10px);
+}
+.input_label {
+    font-family: "Helvetica Neue";
+    font-size:300%;
 }
 #passcode_input {
     position: absolute;

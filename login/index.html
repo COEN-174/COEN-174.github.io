@@ -8,19 +8,51 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
     <link rel="import" href="common.html">
     <link rel="stylesheet" href="css/login.css">
+    <style is="custom-style">
+        .flex-horizontal {
+            @apply(--layout-horizontal);
+        }
+        .flexchild {
+            @apply(--layout-flex);
+        }
+    </style>
 </head>
 <body>
     <div id="container">
-        <paper-input id="passcode_input" label="Passcode"></paper-input>
+        <div id="rotate_container">
+            <div class="input_label" id="welcome_banner">Sign in</div>
+            <div class="input_label" id="name_banner"></div>
+        </div>
+
+        <div id="passcode_input" class="container flex-horizontal">
+            <paper-input class="flexchild" label="Passcode"></paper-input>
+            <paper-icon-button disabled=true id="submit_button" icon="arrow-forward" title="submit"></paper-icon-button>
+        </div>
     </div>
     <script>
         document.querySelector('paper-input').addEventListener('keyup', function(event) {
             searchJudges(event.target.value, function(result) {
                 if (result) {
-                    console.log(result);
+                    document.getElementById("name_banner").innerHTML = result.name;
+                    applyStateDisabled(false);
+                } else {
+                    applyStateDisabled(true);
                 }
             });
         });
+        function applyStateDisabled(disabled) {
+            var rotate_container = document.getElementById("rotate_container");
+            var submit_button = document.getElementById("submit_button");
+            if (disabled) {
+                submit_button.disabled = true;
+                submit_button.classList.remove('submit_button_enabled');
+                rotate_container.classList.remove('container_rotated');
+            } else {
+                submit_button.disabled = false;
+                submit_button.classList.add('submit_button_enabled');
+                rotate_container.classList.add('container_rotated');
+            }
+        }
     </script>
 </body>
 </html>

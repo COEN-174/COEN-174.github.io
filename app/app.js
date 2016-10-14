@@ -1,6 +1,10 @@
 var judgesFile = "json/judges.json";
+var judgeIdentifierLength = 4;
 
 function searchJudges(identifier, callback) {
+    if (identifier.length != judgeIdentifierLength) {
+        callback(null);
+    }
     readJudges(function(judges) {
         var result = judges.filter(function(judge) {
             return judge.auth_id === identifier;

@@ -4,5 +4,11 @@
     "name" : "Domo Kun",
     "auth_id" : "asdf",
     "session" : "000"
+  },
+  {
+    "id" : "001",
+    "name" : "Darren Atkinson",
+    "auth_id" : "ghjk",
+    "session" : "000"
   }
 ]
