@@ -1,0 +1,10 @@
+.sidebar_cell_separator {
+    height: 1px;
+    width: 90%;
+    right: 0px;
+    margin:auto;
+    background-color: lightgray;
+}
+.sidebar_cell_select {
+    color: blue;
+}

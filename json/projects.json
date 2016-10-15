@@ -1,7 +1,19 @@
 [
   {
-    "id" : "000",
+    "id" : "asdf",
     "name" : "Senior Design Judging Form",
+    "advisors" : ["000", "001"],
+    "members" : ["Blake Tsuzaki", "Christina Ciardella", "Patrick Miller"]
+  },
+  {
+    "id" : "ghjk",
+    "name" : "Magical Light Bulb",
+    "advisors" : ["000", "001"],
+    "members" : ["Blake Tsuzaki", "Christina Ciardella", "Patrick Miller"]
+  },
+  {
+    "id" : "qwer",
+    "name" : "Something Really Cool",
     "advisors" : ["000", "001"],
     "members" : ["Blake Tsuzaki", "Christina Ciardella", "Patrick Miller"]
   }

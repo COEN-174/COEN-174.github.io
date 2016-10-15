@@ -7,13 +7,117 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
     <link rel="import" href="common.html">
 </head>
-<body>
+<body unresolved>
+<dom-module id="app-main">
+    <template>
+        <paper-drawer-panel>
+            <paper-header-panel drawer id="drawer-panel">
+                <paper-toolbar></paper-toolbar>
+                    <template is="dom-bind" id="projects_sidebar">
+                        <paper-menu class="sidebar_menu">
+                            <template is="dom-repeat" items="{{project_list}}">
+                                <paper-item class="sidebar_cell">
+                                    {{item.name}}<paper-ripple class="sidebar_cell_select"></paper-ripple>
+                                </paper-item>
+                                <div class="sidebar_cell_separator"></div>
+                            </template>
+                        </paper-menu>
+                    </template>
+            </paper-header-panel>
+            <paper-header-panel main>
+                <paper-toolbar>
+                    <paper-icon-button id="menu_button" icon="menu" paper-drawer-toggle></paper-icon-button>
+                    <span style="flex: 1;"></span>
+                    <paper-icon-button id="exit_button" on-tap="logout_handler" icon="exit-to-app"></paper-icon-button>
+                    <paper-tooltip for="menu_button" offset="20">projects</paper-tooltip>
+                    <paper-tooltip for="exit_button" offset="20">logout</paper-tooltip>
+                </paper-toolbar>
+                <div>
+
+                </div>
+            </paper-header-panel>
+        </paper-drawer-panel>
+    </template>
+
     <script>
+        var login_location = "./login";
+        var _userId;
+        var _userObj;
+        var _sessionObj;
+        var _projectArr;
+        document.addEventListener('WebComponentsReady', function() {
+            Polymer({
+                is: "app-main",
+                logout_handler: function() {
+                    window.location = login_location;
+                },
+                ready: function() {
+                    projectArr(function(result) {
+                        if (result.length) {
+                            console.log(result);
+                            var projects_sidebar = document.querySelector('#projects_sidebar');
+                            projects_sidebar.project_list = result;
+                        }
+                    });
+                }
+            });
+        });
+        function userObj(callback) {
+            if (!_userObj) { searchJudges(user_id, function(result) {
+                _userObj = result;
+                callback(_userObj);
+            }); } else { callback(_userObj); }
+        }
+        function sessionObj(callback) {
+            if (!_sessionObj) {
+                userObj(function(result) {
+                    searchSessions(result.session, function(result) {
+                        _sessionObj = result;
+                        callback(_sessionObj);
+                })
+            }); } else { callback(_sessionObj);}
+        }
+        function projectArr(callback) {
+            if (!_projectArr) {
+                _projectArr = [];
+                sessionObj(function(session) {
+                    var projects = session.projects;
+                    for (var projectIdx = 0; projectIdx < projects.length; projectIdx ++) {
+                        var projectId = projects[projectIdx];
+                        searchProjects(projectId, function(result) {
+                            if (result) {
+                                _projectArr.push(result);
+                                sessionObj(function(result) {
+                                    console.log(result);
+                                    if (_projectArr.length == result.projects.length) {
+                                        callback(_projectArr);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            callback(_projectArr);
+        }
+        function populateProjectList(callback) {
+            projectArr(function(result) {
+                var projects = result;
+                var projectItems = []
+                for (var projectIdx = 0; projectIdx < projects.length; projects ++) {
+                    var project = projects[projectIdx];
+                    projectItems.push(project.name);
+                }
+                callback(projectItems);
+            });
+        }
         if (typeof(Storage) == "undefined") { }
-        if (localStorage.getItem("user_id") == null) {
-            window.location = "./login";
+        user_id = sessionStorage.getItem("user_id");
+        if (user_id == null) {
+            window.location = login_location;
         }
     </script>
-
+</dom-module>
+<app-main></app-main>
 </body>
 </html>

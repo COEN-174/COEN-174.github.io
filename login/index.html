@@ -17,7 +17,7 @@
         }
     </style>
 </head>
-<body>
+<body unresolved>
     <div id="container">
         <div id="rotate_container">
             <div class="input_label" id="welcome_banner">Sign in</div>
@@ -30,13 +30,26 @@
         </div>
     </div>
     <script>
+        if (typeof(Storage) == "undefined") { }
+        sessionStorage.removeItem("user_id");
+
+        var userObj;
+        document.querySelector('paper-icon-button').addEventListener('click', function(event) {
+            if (userObj) {
+                if (typeof(Storage) == "undefined") { }
+                sessionStorage.setItem("user_id", userObj.id);
+                window.location = ".";
+            }
+        });
         document.querySelector('paper-input').addEventListener('keyup', function(event) {
-            searchJudges(event.target.value, function(result) {
+            searchJudgesAuth(event.target.value, function(result) {
                 if (result) {
                     document.getElementById("name_banner").innerHTML = result.name;
                     applyStateDisabled(false);
+                    userObj = result;
                 } else {
                     applyStateDisabled(true);
+                    userObj = null;
                 }
             });
         });
