@@ -20,7 +20,7 @@
                 <template is="dom-bind" id="projects_sidebar">
                     <paper-menu id="sidebar_menu" selected="0">
                         <template is="dom-repeat" items="{{project_list}}">
-                            <paper-item class="sidebar_cell">
+                            <paper-item class="sidebar_cell noselect">
                                 {{item.name}}
                                 <paper-ripple></paper-ripple>
                             </paper-item>
@@ -78,7 +78,7 @@
                 var teamContainer = document.getElementById("team_container");
                 teamContainer.innerHTML = "";
                 for (var stringidx = 0; stringidx < team_members.length; stringidx++) {
-                    teamContainer.innerHTML += "<div class=\"chip\">"+team_members[stringidx]+"</div>";
+                    teamContainer.innerHTML += "<div class=\"chip noselect\">"+team_members[stringidx]+"</div>";
                 }
             });
         }

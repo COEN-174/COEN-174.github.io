@@ -19,6 +19,14 @@
 #prototype_div {
     padding: 20px;
 }
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 .form_container_transition {
     -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
