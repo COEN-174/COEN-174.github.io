@@ -1,0 +1,22 @@
+<div id="judging_form">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link rel="import" href="../custom-modules/judging-category-fivepoint.html">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <form is="iron-form" id="judging_form_container">
+        <paper-item>
+            <div style="padding-right: 10px;">
+                Team Members
+            </div>
+            <div id="team_container"></div>
+        </paper-item>
+        <br>
+        <judging-category-fivepoint category_title="Category 1" category_parity="category_even"></judging-category-fivepoint> <br>
+        <judging-category-fivepoint category_title="Category 2" category_parity="category_odd"></judging-category-fivepoint> <br>
+        <judging-category-fivepoint category_title="Category 3" category_parity="category_even"></judging-category-fivepoint> <br>
+        <paper-input name="comments" label="Comments"></paper-input> <br>
+        <div id="button-container">
+            <paper-button raised class="form-button" onclick="_submit(event)">Submit</paper-button>
+            <paper-button raised class="form-button" onclick="_reset(event)">Reset</paper-button>
+        </div>
+    </form>
+</div>

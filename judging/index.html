@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judging Form Prototype</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../common.html">
+    <link rel="stylesheet" type="text/css" href="../css/common.css" />
+    <link rel="import" id="form_template" href="form.html">
+</head>
+<body>
+    <div id="prototype_div"></div>
+    <script>
+        document.addEventListener('WebComponentsReady', function() {
+            var form_template_import = document.querySelector('#form_template');
+            var form_template_content = form_template_import.import.querySelector('#judging_form');
+            console.log(form_template_content);
+            document.querySelector('#prototype_div').appendChild(form_template_content);
+        });
+    </script>
+</body>
+</html>

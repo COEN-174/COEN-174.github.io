@@ -1,0 +1,45 @@
+<link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/polymer/polymer.html">
+
+<dom-module id="judging-category-fivepoint">
+    <template strip-whitespace>
+        <style>
+            .category_label {
+                width:20%
+            }
+            .category_container {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+            .category_score_container {
+                width: 100%;
+                display: flex;
+            }
+            .category_radio_button {
+                flex: 1;
+            }
+        </style>
+        <paper-item class="category_container">
+            <div class="category_label">[[category_title]]</div>
+            <paper-radio-group class="category_score_container">
+                <paper-radio-button class="category_radio_button" name="1">1</paper-radio-button>
+                <paper-radio-button class="category_radio_button" name="2">2</paper-radio-button>
+                <paper-radio-button class="category_radio_button" name="3">3</paper-radio-button>
+                <paper-radio-button class="category_radio_button" name="4">4</paper-radio-button>
+                <paper-radio-button class="category_radio_button" name="5">5</paper-radio-button>
+            </paper-radio-group>
+        </paper-item>
+    </template>
+    <script>
+        Polymer({
+            is: 'judging-category-fivepoint',
+            hostAttributes: {
+                tabindex: 0
+            },
+            properties: {
+                category_title: {
+                    type: String
+                }
+            },
+            ready: function() {}
+        })
+    </script>
+</dom-module>

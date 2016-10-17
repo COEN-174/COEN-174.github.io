@@ -6,23 +6,28 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
     <link rel="import" href="common.html">
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="import" type="text/html" id="form_template" href="judging/form.html">
 </head>
 <body unresolved>
 <dom-module id="app-main">
     <template>
         <paper-drawer-panel>
             <paper-header-panel drawer id="drawer-panel">
-                <paper-toolbar></paper-toolbar>
-                    <template is="dom-bind" id="projects_sidebar">
-                        <paper-menu class="sidebar_menu">
-                            <template is="dom-repeat" items="{{project_list}}">
-                                <paper-item class="sidebar_cell">
-                                    {{item.name}}<paper-ripple class="sidebar_cell_select"></paper-ripple>
-                                </paper-item>
-                                <div class="sidebar_cell_separator"></div>
-                            </template>
-                        </paper-menu>
-                    </template>
+                <paper-toolbar>
+                    <iron-image sizing="contain" id="hero_image" src="img/hero_logo_white.png"></iron-image>
+                </paper-toolbar>
+                <template is="dom-bind" id="projects_sidebar">
+                    <paper-menu id="sidebar_menu" selected="0">
+                        <template is="dom-repeat" items="{{project_list}}">
+                            <paper-item class="sidebar_cell">
+                                {{item.name}}
+                                <paper-ripple></paper-ripple>
+                            </paper-item>
+                            <div class="sidebar_cell_separator"></div>
+                        </template>
+                    </paper-menu>
+                </template>
             </paper-header-panel>
             <paper-header-panel main>
                 <paper-toolbar>
@@ -32,19 +37,15 @@
                     <paper-tooltip for="menu_button" offset="20">projects</paper-tooltip>
                     <paper-tooltip for="exit_button" offset="20">logout</paper-tooltip>
                 </paper-toolbar>
-                <div>
-
-                </div>
+                <div id="prototype_div"></div>
+                <paper-toast id="successToast" text="Form Submitted"></paper-toast>
             </paper-header-panel>
         </paper-drawer-panel>
     </template>
 
     <script>
         var login_location = "./login";
-        var _userId;
-        var _userObj;
-        var _sessionObj;
-        var _projectArr;
+        var team_members;
         document.addEventListener('WebComponentsReady', function() {
             Polymer({
                 is: "app-main",
@@ -54,66 +55,45 @@
                 ready: function() {
                     projectArr(function(result) {
                         if (result.length) {
-                            console.log(result);
                             var projects_sidebar = document.querySelector('#projects_sidebar');
                             projects_sidebar.project_list = result;
+                            finishPageSetup();
                         }
                     });
                 }
             });
         });
-        function userObj(callback) {
-            if (!_userObj) { searchJudges(user_id, function(result) {
-                _userObj = result;
-                callback(_userObj);
-            }); } else { callback(_userObj); }
-        }
-        function sessionObj(callback) {
-            if (!_sessionObj) {
-                userObj(function(result) {
-                    searchSessions(result.session, function(result) {
-                        _sessionObj = result;
-                        callback(_sessionObj);
-                })
-            }); } else { callback(_sessionObj);}
-        }
-        function projectArr(callback) {
-            if (!_projectArr) {
-                _projectArr = [];
-                sessionObj(function(session) {
-                    var projects = session.projects;
-                    for (var projectIdx = 0; projectIdx < projects.length; projectIdx ++) {
-                        var projectId = projects[projectIdx];
-                        searchProjects(projectId, function(result) {
-                            if (result) {
-                                _projectArr.push(result);
-                                sessionObj(function(result) {
-                                    console.log(result);
-                                    if (_projectArr.length == result.projects.length) {
-                                        callback(_projectArr);
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-            callback(_projectArr);
-        }
-        function populateProjectList(callback) {
-            projectArr(function(result) {
-                var projects = result;
-                var projectItems = []
-                for (var projectIdx = 0; projectIdx < projects.length; projects ++) {
-                    var project = projects[projectIdx];
-                    projectItems.push(project.name);
+        function finishPageSetup() {
+            var menu = document.getElementById('sidebar_menu');
+            menu.addEventListener("iron-select", function(){
+                team_members = _projectArr[menu.selected/2].members;
+
+                document.querySelector('#prototype_div').innerHTML = "";
+                var form_template_import = document.querySelector('#form_template');
+                var form_template_content = form_template_import.import.querySelector('#judging_form');
+                var form_clone = form_template_content.cloneNode(true);
+                form_clone.classList += "form_container_transition";
+                document.querySelector('#prototype_div').appendChild(form_clone);
+
+                var teamContainer = document.getElementById("team_container");
+                teamContainer.innerHTML = "";
+                for (var stringidx = 0; stringidx < team_members.length; stringidx++) {
+                    teamContainer.innerHTML += "<div class=\"chip\">"+team_members[stringidx]+"</div>";
                 }
-                callback(projectItems);
             });
         }
+        function _submit(event) {
+//            Polymer.dom(event).localTarget.parentElement.submit();
+            successToast.open();
+        }
+        function _reset(event) {
+            var form = Polymer.dom(event).localTarget.parentElement
+            form.reset();
+            form.querySelector('.output').innerHTML = '';
+        }
         if (typeof(Storage) == "undefined") { }
-        user_id = sessionStorage.getItem("user_id");
-        if (user_id == null) {
+        _userId = sessionStorage.getItem("user_id");
+        if (_userId == null) {
             window.location = login_location;
         }
     </script>

@@ -9,12 +9,12 @@
     "id" : "ghjk",
     "name" : "Magical Light Bulb",
     "advisors" : ["000", "001"],
-    "members" : ["Blake Tsuzaki", "Christina Ciardella", "Patrick Miller"]
+    "members" : ["Dr. Seuss", "Roald Dahl"]
   },
   {
     "id" : "qwer",
     "name" : "Something Really Cool",
     "advisors" : ["000", "001"],
-    "members" : ["Blake Tsuzaki", "Christina Ciardella", "Patrick Miller"]
+    "members" : ["Me", "Myself", "and I"]
   }
 ]

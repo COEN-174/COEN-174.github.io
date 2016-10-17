@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-    <link rel="stylesheet" type="text/css" href="./css/common.css">
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/polymer/polymer.html">
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-button/paper-button.html">
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-input/paper-input.html">
@@ -11,32 +10,94 @@
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-tooltip/paper-tooltip.html">
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-item/paper-item.html">
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-ripple/paper-ripple.html">
+    <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-radio-group/paper-radio-group.html">
+    <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-radio-button/paper-radio-button.html">
+    <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/paper-toast/paper-toast.html">
+
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/iron-flex-layout/iron-flex-layout-classes.html">
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/iron-label/iron-label.html">
     <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/iron-icons/iron-icons.html">
+    <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/iron-image/iron-image.html">
+    <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.5.0/lib/iron-form/iron-form.html">
+
     <script type="text/javascript" src="./app/app.js"></script>
     <style is="custom-style">
         :root {
             --paper-button: {
                 outline: none;
             };
+            --paper-input-container-focus-color: #9D2235;
             --paper-item-selected: {
-                background-color: white;
+                background-color: rgba(0, 0, 0, 0.1);
             };
             --paper-item-focused-before: {
-                background-color: white;
+                background-color: transparent;
             };
             --paper-menu-focused-item-after: {
-                background-color: white;
+                background-color: transparent;
             };
             --paper-drawer-panel-left-drawer-container: {
                 box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.1);
             };
+            --paper-toolbar-background: #9D2235;
+            --paper-radio-button-checked-color: #9D2235;
         }
     </style>
     <script>
-        document.addEventListener('WebComponentsReady', function() {
+        var _userId;
+        var _userObj;
+        var _sessionObj;
+        var _projectArr;
+        function userObj(callback) {
+            if (!_userObj) { searchJudges(_userId, function(result) {
+                _userObj = result;
+                callback(_userObj);
+            }); } else { callback(_userObj); }
+        }
 
-        });
+        function sessionObj(callback) {
+            if (!_sessionObj) {
+                userObj(function(result) {
+                    searchSessions(result.session, function(result) {
+                        _sessionObj = result;
+                        callback(_sessionObj);
+                    })
+                }); } else { callback(_sessionObj);}
+        }
+
+        function projectArr(callback) {
+            if (!_projectArr) {
+                _projectArr = [];
+                sessionObj(function(session) {
+                    var projects = session.projects;
+                    for (var projectIdx = 0; projectIdx < projects.length; projectIdx ++) {
+                        var projectId = projects[projectIdx];
+                        searchProjects(projectId, function(result) {
+                            if (result) {
+                                _projectArr.push(result);
+                                sessionObj(function(result) {
+                                    if (_projectArr.length == result.projects.length) {
+                                        callback(_projectArr);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            callback(_projectArr);
+        }
+
+        function populateProjectList(callback) {
+            projectArr(function(result) {
+                var projects = result;
+                var projectItems = []
+                for (var projectIdx = 0; projectIdx < projects.length; projects ++) {
+                    var project = projects[projectIdx];
+                    projectItems.push(project.name);
+                }
+                callback(projectItems);
+            });
+        }
     </script>
 </html>
