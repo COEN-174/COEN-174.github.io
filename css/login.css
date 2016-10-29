@@ -8,6 +8,10 @@
     border-radius:50%;
 }
 
+.help-dialog-button {
+    background-color: deepskyblue;
+}
+
 @keyframes enable_submit {
     from {}
     to {background-color: #9D2235;

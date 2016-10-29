@@ -33,14 +33,32 @@
                 <paper-toolbar>
                     <paper-icon-button id="menu_button" icon="menu" paper-drawer-toggle></paper-icon-button>
                     <span style="flex: 1;"></span>
+                    <paper-icon-button id="help_button" on-tap="show_help_dialog" icon="help"></paper-icon-button>
+                    <span style="margin-left: 10px;"></span>
                     <paper-icon-button id="exit_button" on-tap="logout_handler" icon="exit-to-app"></paper-icon-button>
                     <paper-tooltip for="menu_button" offset="20">projects</paper-tooltip>
                     <paper-tooltip for="exit_button" offset="20">logout</paper-tooltip>
+                    <paper-tooltip for="help_button" offset="20">help</paper-tooltip>
                 </paper-toolbar>
                 <div id="prototype_div"></div>
                 <paper-toast id="successToast" text="Form Submitted"></paper-toast>
             </paper-header-panel>
         </paper-drawer-panel>
+
+        <paper-dialog id="help_dialog" with-backdrop>
+            <h2>Senior Design Judging</h2>
+            <p>Please evaluate senior engineering design projects and presentation using the following point system:</p>
+            <li>5 = Excellent (at the level of an entry-level engineer you would hire)</li>
+            <li>4 = Good (at the level of an accomplished college senior)</li>
+            <li>3 = Average (at the level of a typical college senior)</li>
+            <li>2 = Below Average (not up to the expectations for a college senior)</li>
+            <li>1 = Poor (significant errors or omissions)</li>
+            <li>N/A = No appropriate score applies</li>
+            <p>At the end of the judging form, click "Submit" to submit your scores</p>
+            <div class="buttons">
+                <paper-button dialog-dismiss autofocus class="help-dialog-button">Got it</paper-button>
+            </div>
+        </paper-dialog>
     </template>
 
     <script>
@@ -52,7 +70,11 @@
                 logout_handler: function() {
                     window.location = login_location;
                 },
+                show_help_dialog: function() {
+                    help_dialog.open()
+                },
                 ready: function() {
+                    help_dialog.open()
                     projectArr(function(result) {
                         if (result.length) {
                             var projects_sidebar = document.querySelector('#projects_sidebar');
@@ -80,6 +102,9 @@
                 for (var stringidx = 0; stringidx < team_members.length; stringidx++) {
                     teamContainer.innerHTML += "<div class=\"chip noselect\">"+team_members[stringidx]+"</div>";
                 }
+
+//                var titleBanner = document.getElementById('welcome_banner');
+//                titleBanner.innerHTML = _projectArr[menu.selected/2].name;
             });
         }
         function _submit(event) {
