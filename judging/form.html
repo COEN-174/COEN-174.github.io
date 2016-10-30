@@ -2,6 +2,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
     <link rel="import" href="../custom-modules/judging-category-fivepoint.html">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="judging.js"></script>
     <form is="iron-form" id="judging_form_container">
         <!--<div id="welcome_banner" style="font-size: 300%;">
 
@@ -54,7 +56,8 @@
             <paper-textarea class="form-comments-input" name="comments" label="Comments (optional)"></paper-textarea>
         </div>
         <div id="button-container">
-            <paper-button raised class="form-button" onclick="_submit(event)">Submit</paper-button>
+            <paper-button raised class="form-button" onclick="teamScore()">Submit</paper-button>
+            <!--<paper-button raised class="form-button" onclick="_submit(event)">Submit</paper-button>-->
             <paper-button raised class="form-button" onclick="_reset(event)">Reset</paper-button>
         </div>
     </form>

@@ -1,0 +1,4 @@
+TODO:
+-Make team members dynamic/mutable and not static/random
+-Glue teamScores() to write_csv.php with ajax
+-Javascript and php to download single aggregate csv
