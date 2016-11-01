@@ -2,19 +2,19 @@
   {
     "id" : "asdf",
     "name" : "Senior Design Judging Form",
-    "advisors" : ["000", "001"],
+    "advisors" : ["100", "101"],
     "members" : ["Blake Tsuzaki", "Christina Ciardella", "Patrick Miller"]
   },
   {
     "id" : "ghjk",
     "name" : "Magical Light Bulb",
-    "advisors" : ["000", "001"],
+    "advisors" : ["101"],
     "members" : ["Dr. Seuss", "Roald Dahl"]
   },
   {
     "id" : "qwer",
     "name" : "Something Really Cool",
-    "advisors" : ["000", "001"],
+    "advisors" : ["100"],
     "members" : ["Me", "Myself", "and I"]
   }
 ]

@@ -1,0 +1,56 @@
+<div id="advisor_form">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link rel="import" href="../custom-modules/advisor-category-fivepoint.html">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <form is="iron-form" id="judging_form_container">
+        <paper-item style="padding-left: 0px">
+            <div style="padding-right: 10px;margin-top: -6px;font-size:14px;" class="noselect">
+                Team Members
+            </div>
+            <div id="team_container"></div>
+        </paper-item>
+        <h5 class="subheader">Design Project</h5>
+        <advisor-category-fivepoint category_title="Technical Accuracy" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Creativity and Innovation" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Supporting Analytical Work" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Methodical Design Process Demonstrated" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Addresses Project Complexity Appropriately" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Expectation of Completion (by term's end)" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Design & Analysis of Tests" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Quality of Response during Q&A" category_parity="category_odd"></advisor-category-fivepoint>
+
+        <h5 class="subheader">Presentation</h5>
+        <advisor-category-fivepoint category_title="Organization" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Use of Alloted Time" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Visual Aids" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint category_title="Confidence and Poise" category_parity="category_odd"></advisor-category-fivepoint>
+
+        <h5 id="center">Grand Total (Sum of Design Project and Presentation Totals):</h5>
+        <div id="tally">
+            <!-- mock div that will display score total once calculated -->
+        </div><br>
+
+        <div class="form-actionable-container">
+            <p id="center"><b>Select any of the following considerations that were addressed by the presentation:</b></p>
+            <div class="toprow">
+                <paper-button toggles raised class="form-topical-button">Economic</paper-button>
+                <paper-button toggles raised class="form-topical-button">Environmental</paper-button>
+                <paper-button toggles raised class="form-topical-button">Sustainability</paper-button>
+                <paper-button toggles raised class="form-topical-button">Manufacturability</paper-button>
+            </div>
+            <div class="bottomrow">
+                <paper-button toggles raised class="form-topical-button">Ethical</paper-button>
+                <paper-button toggles raised class="form-topical-button">Health & Safety</paper-button>
+                <paper-button toggles raised class="form-topical-button">Social</paper-button>
+                <paper-button toggles raised class="form-topical-button">Political</paper-button>
+            </div>
+        </div>
+
+        <div class="form-actionable-container">
+            <paper-textarea class="form-comments-input" name="comments" label="Comments (optional)"></paper-textarea>
+        </div>
+        <div id="button-container">
+        </div>
+    </form>
+</div>

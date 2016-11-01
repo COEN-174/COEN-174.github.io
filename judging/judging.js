@@ -10,13 +10,9 @@ function teamScore() {
     var payload = {};
 
     //var judge = "Captain America";
-    var judge = document.getElementById("judge_container");
-    judge = judge.getElementsByClassName("chip noselect");
-    judge = judge["innerHTML"];
+    var judge = _userId;
     //var advisor = "Bullox";
-    var advisor = document.getElementById("advisor_container");
-    advisor = advisor.getElementsByClassName("chip noselect");
-    advisor = advisor["innerHTML"];
+    var advisor = _projectArr[menu.selected/2].advisors;
 
     //Set advisor
     payload["Advisor"] = advisor;

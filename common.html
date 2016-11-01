@@ -49,14 +49,26 @@
     </style>
     <script>
         var _userId;
+        var _userIsJudge;
         var _userObj;
         var _sessionObj;
         var _projectArr;
         function userObj(callback) {
-            if (!_userObj) { searchJudges(_userId, function(result) {
-                _userObj = result;
-                callback(_userObj);
-            }); } else { callback(_userObj); }
+            if (!_userObj) { searchJudges(_userId, function(judgeObj) {
+                if (judgeObj) {
+                    _userObj = judgeObj;
+                    _userIsJudge = true;
+                    callback(_userObj);
+                } else {
+                    searchAdvisors(_userId, function(advisorObj) {
+                        if (advisorObj) {
+                            _userObj = advisorObj;
+                            _userIsJudge = false;
+                            console.log(advisorObj);
+                            callback(_userObj);
+                        }
+                    });
+                } }); } else { callback(_userObj); }
         }
 
         function sessionObj(callback) {
@@ -72,36 +84,41 @@
         function projectArr(callback) {
             if (!_projectArr) {
                 _projectArr = [];
-                sessionObj(function(session) {
-                    var projects = session.projects;
-                    for (var projectIdx = 0; projectIdx < projects.length; projectIdx ++) {
-                        var projectId = projects[projectIdx];
-                        searchProjects(projectId, function(result) {
-                            if (result) {
-                                _projectArr.push(result);
-                                sessionObj(function(result) {
-                                    if (_projectArr.length == result.projects.length) {
-                                        callback(_projectArr);
+                userObj(function(userObj) {
+                    if (_userIsJudge) {
+                        sessionObj(function(session) {
+                            var projects = session.projects;
+                            for (var projectIdx = 0; projectIdx < projects.length; projectIdx ++) {
+                                var projectId = projects[projectIdx];
+                                searchProjects(projectId, function(result) {
+                                    if (result) {
+                                        _projectArr.push(result);
+                                        sessionObj(function(result) {
+                                            if (_projectArr.length == result.projects.length) {
+                                                callback(_projectArr);
+                                            }
+                                        });
                                     }
                                 });
                             }
                         });
+                    } else {
+                        var projects = userObj.projects;
+                        for (var projectIdx = 0; projectIdx < projects.length; projectIdx ++) {
+                            var projectId = projects[projectIdx];
+                            searchProjects(projectId, function(result) {
+                                if (result) {
+                                    _projectArr.push(result);
+                                    if (_projectArr.length == userObj.projects.length) {
+                                        callback(_projectArr);
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
             }
             callback(_projectArr);
-        }
-
-        function populateProjectList(callback) {
-            projectArr(function(result) {
-                var projects = result;
-                var projectItems = []
-                for (var projectIdx = 0; projectIdx < projects.length; projects ++) {
-                    var project = projects[projectIdx];
-                    projectItems.push(project.name);
-                }
-                callback(projectItems);
-            });
         }
     </script>
 </html>
