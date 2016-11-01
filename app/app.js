@@ -1,6 +1,7 @@
 var judgesFile = "json/judges.json";
 var projectsFile = "json/projects.json";
 var sessionsFile = "json/sessions.json";
+var adminFile = "json/admin.json";
 var judgeAuthIdentifierLength = 4;
 var judgeIdentifierLength = 3;
 var sessionIdentifierLength = 3;
@@ -38,6 +39,20 @@ function searchAdvisorsAuth(identifier, callback) {
     });
 }
 
+function searchAdminAuth(identifier, callback) {
+    if (identifier.length != advAuthIdentifierLength) { callback(null); }
+    readFile(adminFile, function(admins) {
+        var result = admins.filter(function(admin) {
+            return admin.auth_id === identifier;
+        });
+        if (result.length > 0) {
+            callback(result[0]);
+        } else {
+            callback(null);
+        }
+    });
+}
+
 function searchJudges(identifier, callback) {
     if (identifier.length != judgeIdentifierLength) { callback(null); }
     readFile(judgesFile, function(judges) {
@@ -66,6 +81,20 @@ function searchAdvisors(identifier, callback) {
     });
 }
 
+function searchAdmin(identifier, callback) {
+    if (identifier.length != advIdentifierLength) { callback(null); }
+    readFile(adminFile, function(admins) {
+        var result = admins.filter(function(admin) {
+            return admin.id === identifier;
+        });
+        if (result.length > 0) {
+            callback(result[0]);
+        } else {
+            callback(null);
+        }
+    });
+}
+
 function searchProjects(identifier, callback) {
     if (identifier.length != projectIdentifierLength) { callback(null); }
     readFile(projectsFile, function(projects) {
@@ -77,6 +106,12 @@ function searchProjects(identifier, callback) {
         } else {
             callback(null);
         }
+    });
+}
+
+function getAllProjects(callback) {
+    readFile(projectsFile, function(projects) {
+        callback(projects);
     });
 }
 

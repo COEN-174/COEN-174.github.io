@@ -50,6 +50,7 @@
     <script>
         var _userId;
         var _userIsJudge;
+        var _userIsAdmin;
         var _userObj;
         var _sessionObj;
         var _projectArr;
@@ -63,9 +64,15 @@
                     searchAdvisors(_userId, function(advisorObj) {
                         if (advisorObj) {
                             _userObj = advisorObj;
-                            _userIsJudge = false;
-                            console.log(advisorObj);
                             callback(_userObj);
+                        } else {
+                            searchAdmin(_userId, function(adminObj) {
+                                if (adminObj) {
+                                    _userObj = adminObj;
+                                    _userIsAdmin = true;
+                                    callback(_userObj);
+                                }
+                            });
                         }
                     });
                 } }); } else { callback(_userObj); }
@@ -100,6 +107,13 @@
                                         });
                                     }
                                 });
+                            }
+                        });
+                    } else if (_userIsAdmin) {
+                        getAllProjects(function(result) {
+                            if (result) {
+                                _projectArr = result;
+                                callback(result);
                             }
                         });
                     } else {

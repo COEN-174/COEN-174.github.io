@@ -55,8 +55,16 @@
                             applyStateDisabled(false);
                             userObj = advisorObj;
                         } else {
-                            applyStateDisabled(true);
-                            userObj = null;
+                            searchAdminAuth(event.target.value, function(adminObj) {
+                                if (adminObj) {
+                                    document.getElementById("name_banner").innerHTML = adminObj.name;
+                                    applyStateDisabled(false);
+                                    userObj = adminObj;
+                                } else {
+                                    applyStateDisabled(true);
+                                    userObj = null;
+                                }
+                            });
                         }
                     });
                 }
