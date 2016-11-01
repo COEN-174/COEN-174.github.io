@@ -48,19 +48,9 @@
                     document.getElementById("name_banner").innerHTML = result.name;
                     applyStateDisabled(false);
                     userObj = result;
-                }
-                else {
-                    searchAdvisorsAuth(event.target.value, function(result) {
-                        if (result) {
-                            document.getElementById("name_banner").innerHTML = result.name;
-                            applyStateDisabled(false);
-                            userObj = result;
-                        }
-                        else {
-                            applyStateDisabled(true);
-                            userObj = null;
-                        }
-                    }
+                } else {
+                    applyStateDisabled(true);
+                    userObj = null;
                 }
             });
         });
