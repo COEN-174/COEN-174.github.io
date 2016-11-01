@@ -6,6 +6,10 @@ var judgeIdentifierLength = 3;
 var sessionIdentifierLength = 3;
 var projectIdentifierLength = 3;
 
+var advisorsFile = "json/advisors.json";
+var advAuthIdentifierLength = 4;
+var advIdentifierLength = 3;
+
 function searchJudgesAuth(identifier, callback) {
     if (identifier.length != judgeAuthIdentifierLength) { callback(null); }
     readFile(judgesFile, function(judges) {
@@ -20,11 +24,39 @@ function searchJudgesAuth(identifier, callback) {
     });
 }
 
+function searchAdvisorsAuth(identifier, callback) {
+    if (identifier.length != advAuthIdentifierLength) { callback(null); }
+    readFile(advisorsFile, function(advisors) {
+        var result = advisors.filter(function(advisor) {
+            return advisor.auth_id === identifier;
+        });
+        if (result.length > 0) {
+            callback(result[0]);
+        } else {
+            callback(null);
+        }
+    });
+}
+
 function searchJudges(identifier, callback) {
     if (identifier.length != judgeIdentifierLength) { callback(null); }
     readFile(judgesFile, function(judges) {
         var result = judges.filter(function(judge) {
             return judge.id === identifier;
+        });
+        if (result.length > 0) {
+            callback(result[0]);
+        } else {
+            callback(null);
+        }
+    });
+}
+
+function searchAdvisors(identifier, callback) {
+    if (identifier.length != advIdentifierLength) { callback(null); }
+    readFile(advisorsFile, function(advisors) {
+        var result = advisors.filter(function(advisor) {
+            return advisor.id === identifier;
         });
         if (result.length > 0) {
             callback(result[0]);
