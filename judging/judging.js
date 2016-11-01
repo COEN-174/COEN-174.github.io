@@ -9,14 +9,21 @@ function teamScore() {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/write_csv.php"
     var payload = {};
 
-    var judge = "Captain America";
-    var advisor = "Bullox";
+    //var judge = "Captain America";
+    var judge = document.getElementById("judge_container");
+    judge = judge.getElementsByClassName("chip noselect");
+    judge = judge["innerHTML"];
+    //var advisor = "Bullox";
+    var advisor = document.getElementById("advisor_container");
+    advisor = advisor.getElementsByClassName("chip noselect");
+    advisor = advisor["innerHTML"];
 
     //Set advisor
     payload["Advisor"] = advisor;
 
     //Generate dot separated string of team members
-    var teamMembers = document.getElementsByClassName("chip noselect");
+    var teamMembers = document.getElementById("team_container");
+    teamMembers = teamMembers.getElementsByClassName("chip noselect");
     var teamName = [];
     for(var i = 0; i < teamMembers.length; i++) {
         teamName.push(teamMembers[i]["innerHTML"]);
@@ -31,7 +38,7 @@ function teamScore() {
     var categories = document.getElementsByClassName("category_label noselect style-scope judging-category-fivepoint");
     var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
     for(var i = 0; i < categories.length; i++) {
-        payload[categories[i]["innerHTML"]] = scores[i]["name"];
+        payload[categories[i]["innerHTML"]] = scores[i].name;
     }
 
     //Sum all selected scores
