@@ -78,7 +78,9 @@
                     help_dialog.open()
                 },
                 ready: function() {
-                    help_dialog.open()
+                    if(_userIsJudge) {
+                                                help_dialog.open();
+                                            }
                     projectArr(function(result) {
                         if (result.length) {
                             var projects_sidebar = document.querySelector('#projects_sidebar');
