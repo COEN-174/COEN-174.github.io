@@ -49,8 +49,16 @@
                     applyStateDisabled(false);
                     userObj = result;
                 } else {
-                    applyStateDisabled(true);
-                    userObj = null;
+                    searchAdvisorsAuth(event.target.value, function(advisorObj) {
+                        if (advisorObj) {
+                            document.getElementById("name_banner").innerHTML = advisorObj.name;
+                            applyStateDisabled(false);
+                            userObj = advisorObj;
+                        } else {
+                            applyStateDisabled(true);
+                            userObj = null;
+                        }
+                    });
                 }
             });
         });
