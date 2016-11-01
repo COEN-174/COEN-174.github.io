@@ -69,5 +69,5 @@ function teamScore() {
     http.setRequestHeader("Content-Type","application/json");
 
     http.send(payload);
-    }   
+    });
 }
