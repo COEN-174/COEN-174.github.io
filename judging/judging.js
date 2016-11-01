@@ -6,13 +6,16 @@ function advisorReports(){
 function shanesReport() {}
 
 function teamScore() {
-    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/write_csv.php"
+    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/write_csv.php";
     var payload = {};
 
     //var judge = "Captain America";
     var judge = _userId;
     //var advisor = "Bullox";
-    var advisor = _projectArr[menu.selected/2].advisors;
+    var advisor;
+    searchAdvisors(_projectArr[_selectedIdx].advisors[0],function(result) {
+        advisor = result;
+    
 
     //Set advisor
     payload["Advisor"] = advisor;
@@ -66,5 +69,5 @@ function teamScore() {
     http.setRequestHeader("Content-Type","application/json");
 
     http.send(payload);
-    
+    }   
 }
