@@ -37,6 +37,9 @@ function teamScore() {
     //Generate JSON of categories -> scores
     var categories = document.getElementsByClassName("category_label noselect style-scope judging-category-fivepoint");
     var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
+    if(scores.length != categories.length) {
+        return false; // Not all score fields are filled out
+    }
     for(var i = 0; i < categories.length; i++) {
         payload[categories[i]["innerHTML"]] = scores[i].name;
     }
