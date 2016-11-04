@@ -40,6 +40,19 @@ paper-button.form-topical-button[active] {
     animation-duration: 0.5s;
     background-color: #9D2235;
 }
+paper-button.session-chooser-topical-button {
+    width: 250px;
+    height: 44px;
+    margin-right: 1%;
+    margin-left: 1%;
+    background-color: #aaa;
+    color: lightgray;
+}
+paper-button.session-chooser-topical-button[active] {
+    animation-name: topical-button-becomes-active;
+    animation-duration: 0.5s;
+    background-color: #9D2235;
+}
 .subheader{
     color: white;
     background-color: #9D2235;
