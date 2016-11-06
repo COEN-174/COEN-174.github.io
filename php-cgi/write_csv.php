@@ -19,6 +19,7 @@ Example usage:
 </script>
 
 */
+    
 function stripWhiteSpace($strang){
     $strang = preg_replace('/\s+/', '', $strang);
     return $strang;
