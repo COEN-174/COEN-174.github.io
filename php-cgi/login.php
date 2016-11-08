@@ -12,13 +12,15 @@
     // {"id":"datkinson","auth_id":"asdf","type":["judge","advisor"],"name":"Darren Atkinson"},
     // {"id":"rdavis","auth_id":"qwerty","type":["advisor"],"name":"Ruth Davis"},
     // {"id":"shane","auth_id":"theman","type":["admin"],"name":"Shane Wibeto"}
-    $users_file = file_get_contents("../json/users.json");
+    $users_file = file_get_contents("users");
     $users = json_decode($users_file, true);
+
     $this_user = [];
+
     //Get login POST data
     $form_login = file_get_contents("php://input");
     $form_login = json_decode($data, true);
-    if (!array_key_exists("username", $login) or !array_key_exists("password", $login)) {
+    if (!array_key_exists("username", $form_login) or !array_key_exists("password", $form_login)) {
         http_response_code(400);
         echo "Bad response";
         exit("Malformed POST");
@@ -27,24 +29,25 @@
     $form_password = $login["password"];
 
     //Check POST'd user->pass against our user->password
-    $found = 0;
-    foreach $users as $user {
-        if (in_array($form_username, $user)) {
+    $found = False;
+    for($i = 0; $i < count($users); $i++) {
+        $user = (Array)$users[$i];
+        if ($form_username == $user["id"]) {
             if ($form_password == $user["auth_id"]) {
+                $found = True;
                 $this_user = $user;
-                unset($this_user["auth_id"]);//Don't ever return password! >:(
-                $found = 1;
+                unset($this_user["auth_id"]); // Don't ever return password!
                 break;
             }
         }
     }
 
-    if ($found == 1) {
+    if ($found) {
         http_response_code(200);
         echo json_encode($this_user); // Return user
     }
     else {
         http_response_code(403);
-        echo '<div class="login_result">' . "buzzer wrong answer" . '</div>';
+        echo "BUZZER WRONG ANSWER";
     }
 ?>
