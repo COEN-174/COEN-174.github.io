@@ -71,6 +71,7 @@ paper-button.session-chooser-topical-button[active] {
     border: 1px solid gray;
     width: 10%;
     margin: auto;
+    font-family: "Roboto";
 }
 
 .form-actionable-container{
