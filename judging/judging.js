@@ -7,42 +7,71 @@ function shanesReport() {}
 
 function teamScore() {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/write_csv.php";
-    var payload = {};
 
-    //var judge = "Captain America";
-    var judge = _userId;
-    //var advisor = "Bullox";
-    var advisor;
-    searchAdvisors(_projectArr[_selectedIdx].advisors[0],function(result) {
-        advisor = result;
-    
-
-    //Set advisor
-    payload["Advisor"] = advisor;
-
-    //Generate dot separated string of team members
-    var teamMembers = document.getElementById("team_container");
-    teamMembers = teamMembers.getElementsByClassName("chip noselect");
-    var teamName = [];
-    for(var i = 0; i < teamMembers.length; i++) {
-        teamName.push(teamMembers[i]["innerHTML"]);
+    //Set judge
+    var judge = document.getElementById("judge_id")["innerHTML"];
+    //Set array of advisors
+    var advisor_container = document.getElementsByClassName("advisor_container");//Array of advisors
+    var advisors = [];
+    for(var i = 0; i < advisor_container.length; i++) {
+        advisors.push(advisor_container[i]["innerHTML"])
     }
-    teamName = teamName.toString(); 
-    teamName = teamName.replace(/,/g,"."); 
-    payload["Team"] = teamName;
-    console.log("Team to string: %s", payload["Team"]);
 
+    //Set Judge auth
+    var judge_auth = document.getElementById("judge_auth")["innerHTML"]; // This comes from logging in
+    
+    //Generate array of team members
+    var team_container = document.getElementById("team_container");
+    team_container = team_container.getElementsByClassName("chip noselect");
+    var team = [];
+    for(var i = 0; i < teamMembers.length; i++) {
+        team.push(teamMembers[i]["innerHTML"]);
+    }
 
-    //Generate JSON of categories -> scores
+    //Generate project name
+    var project = document.getElementById("project_id")["innerHTML"];
+
+    //Generate hash of categories -> scores
+    var grades = {};
     var categories = document.getElementsByClassName("category_label noselect style-scope judging-category-fivepoint");
     var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
     if(scores.length != categories.length) {
+        console.log("Fill out all categories pls");
         return false; // Not all score fields are filled out
     }
     for(var i = 0; i < categories.length; i++) {
-        payload[categories[i]["innerHTML"]] = scores[i].name;
+        grades[categories[i]["innerHTML"]] = scores[i].name;
     }
 
+
+    //Set array of considerations
+    //Don't know how to do this
+
+    //Set Comments
+    var comments = document.getElementsByClassName("mirror-text style-scope iron-autogrow-textarea");
+    comments = comments[0]["innerHTML"];
+
+    //Build Payload
+    var payload = {};
+    payload["judge"] = judge;
+    payload["post_auth"] = judge_auth;
+    payload["advisors"] = advisors;
+    payload["project"] = project;
+    payload["members"] = team;
+    payload["scores"] = grades;
+    payload["emphases"] = categories;
+    payload["comments"] = comments;
+
+    console.log(payload);
+    var http = new XMLHttpRequest();
+    http.open("POST", API_URL, true);
+    payload = JSON.stringify(payload);
+    http.setRequestHeader("Content-Type","application/json");
+
+    http.send(payload);
+    });
+}
+    /* May be removed later :///
     //Sum all selected scores
     var score = 0;
     for (var i = 0; i < scores.length; i++) {
@@ -50,24 +79,4 @@ function teamScore() {
     }
     payload["Score"] = score.toString();
     console.log("Score: %s", payload["Score"]);
-
-    //Set Considerations
-    //Don't know how to grab button text
-
-    //Set Comments
-    var comments = document.getElementsByClassName("mirror-text style-scope iron-autogrow-textarea");
-    payload["Comments"] = comments[0]["innerHTML"];
-
-    //Set Judge
-    payload["Judge"] = judge;
-
-    console.log(payload);
-    var http = new XMLHttpRequest();
-    http.open("POST", API_URL, true);
-    //http.setRequestHeader("user-is", username, false);
-    payload = JSON.stringify(payload);
-    http.setRequestHeader("Content-Type","application/json");
-
-    http.send(payload);
-    });
-}
+    */

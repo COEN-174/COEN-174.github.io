@@ -26,6 +26,7 @@ function stripWhiteSpace($strang){
 }
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
+//Get post data
 $data = file_get_contents("php://input");
 
 //testing
