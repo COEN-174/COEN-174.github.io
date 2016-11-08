@@ -57,7 +57,7 @@
                     <span style="flex: 1;"></span>
                     <paper-button id="session_button" on-tap="show_session_picker" hidden>Sessions</paper-button>
                     <paper-button id="download_button" hidden>Download</paper-button>
-                    <paper-icon-button id="help_button" on-tap="show_help_dialog" icon="help"></paper-icon-button>
+                    <paper-icon-button hidden id="help_button" on-tap="show_help_dialog" icon="help"></paper-icon-button>
                     <span style="margin-left: 10px;"></span>
                     <paper-icon-button id="exit_button" on-tap="logout_handler" icon="exit-to-app"></paper-icon-button>
                     <paper-tooltip for="menu_button" offset="20">projects</paper-tooltip>
@@ -95,6 +95,7 @@
                 ready: function() {
                     userObj(function(_) {
                         if (_userIsJudge) {
+                            document.querySelector('#help_button').removeAttribute("hidden");
                             help_dialog.open();
                         }
                     });
