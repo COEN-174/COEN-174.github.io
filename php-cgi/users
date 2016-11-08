@@ -1,0 +1,26 @@
+[
+  {
+    "id":"sballmer",
+    "auth_id":"developers",
+    "type":["judge"],
+    "name":"Steve Ballmer"
+  },
+  {
+    "id":"datkinson",
+    "auth_id":"asdf",
+    "type":["judge","advisor"],
+    "name":"Darren Atkinson"
+  },
+  {
+    "id":"rdavis",
+    "auth_id":"qwerty",
+    "type":["advisor"],
+    "name":"Ruth Davis"
+  },
+  {
+    "id":"shane",
+    "auth_id":"theman",
+    "type":["admin"],
+    "name":"Shane Wibeto"
+  }
+]
