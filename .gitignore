@@ -1,4 +1,4 @@
-.idea/
+/.idea/
 mocks/
 *.iml
 .DS_Store
