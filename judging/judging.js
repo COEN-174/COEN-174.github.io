@@ -59,7 +59,7 @@ function teamScore() {
     payload["project"] = project; //project => ""
     payload["members"] = team; //members => []
     payload["scores"] = grades; //scores => {}
-    payload["emphases"] = categories; //categories=>{}
+    payload["considerations"] = considerations; //considerations=>[]
     payload["comments"] = comments; //comments => ""
 
     console.log(payload);
