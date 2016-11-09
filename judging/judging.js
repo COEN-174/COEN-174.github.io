@@ -53,20 +53,33 @@ function teamScore() {
 
     //Build Payload
     var payload = {};
-    payload["judge"] = judge;
-    payload["post_auth"] = judge_auth;
-    payload["advisors"] = advisors;
-    payload["project"] = project;
-    payload["members"] = team;
-    payload["scores"] = grades;
-    payload["emphases"] = categories;
-    payload["comments"] = comments;
+    payload["judge"] = judge; // judge=> ""
+    payload["post_auth"] = judge_auth; //judge_auth => ""
+    payload["advisors"] = advisors; //advisors => []
+    payload["project"] = project; //project => ""
+    payload["members"] = team; //members => []
+    payload["scores"] = grades; //scores => {}
+    payload["emphases"] = categories; //categories=>{}
+    payload["comments"] = comments; //comments => ""
 
     console.log(payload);
     var http = new XMLHttpRequest();
     http.open("POST", API_URL, true);
     payload = JSON.stringify(payload);
     http.setRequestHeader("Content-Type","application/json");
+
+    var response = "";
+
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            console.log("Success! %s", http.responseText);
+            response = http.responseText;
+        }
+        else if (http.readyState == 4 && http.status == 403) {
+            console.log("Wrong credentials: Error %d", http.status);
+            response = "ERROR";
+        }
+    }
 
     http.send(payload);
     });
