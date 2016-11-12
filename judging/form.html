@@ -60,19 +60,9 @@
     </form>
 </div>
 <script>
-    function getRBtnName(GrpName) {
-        var sel = document.getElementsByName(GrpName);
-        var fnd = -1;
-        var str = '';
-        for (var i=0; i<sel.length; i++) {
-            if (sel[i].checked == true) { str = sel[i].value;  fnd = i; }
-        }
-        //  return fnd;   // return option index of selection
-        // comment out next line if option index used in line above
-        return str;
-    }
 
     function tallyScore() {
+        console.log("tallyScore called\n");
         var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
    /* if(scores.length != categories.length) {
         console.log("Fill out all categories pls");
@@ -81,15 +71,13 @@
     for(var i = 0; i < categories.length; i++) {
         grades[categories[i]["innerHTML"]] = scores[i].name;
     }*/
-         var tid = '';
-        var total = 0;
-        for (var i=1; i<=5; i++) {
-            tid = 'q'+i;
-            total += Number(getRBtnName(tid));
-            document.getElementById('tally').innerHTML = total;
+        var sum = 0;
+        for (var i = 0; i < scores.length; i++) {
+            sum += parseInt(scores[i].name);
         }
+        console.log(sum);
+        document.getElementById('tally') = sum;
 
-        //return true;
-        return total;
+        return true;
     }
 </script>
