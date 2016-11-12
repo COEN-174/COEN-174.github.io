@@ -6,7 +6,6 @@ function advisorReports(){
 function shanesReport() {}
 
 function teamScore() {
-    console.log("teamScore called\n");
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/write_csv.php";
 
     //Set judge
@@ -43,13 +42,6 @@ function teamScore() {
     for(var i = 0; i < categories.length; i++) {
         grades[categories[i]["innerHTML"]] = scores[i].name;
     }
-    
-    var score=0;
-    for(var i = 0; i < scores.length; i++) {
-        score += parseInt(scores[i].name);
-    }
-    console.log(score);
-    document.getElementById("tally") = score;
 
     //Set array of considerations
     //Don't know how to do this
