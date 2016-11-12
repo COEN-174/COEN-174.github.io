@@ -6,6 +6,7 @@ function advisorReports(){
 function shanesReport() {}
 
 function teamScore() {
+    alert("teamScore called\n");
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/write_csv.php";
 
     //Set judge
