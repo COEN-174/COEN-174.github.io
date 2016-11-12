@@ -42,7 +42,12 @@ function teamScore() {
     for(var i = 0; i < categories.length; i++) {
         grades[categories[i]["innerHTML"]] = scores[i].name;
     }
-
+    
+    var score=0;
+    for(var i = 0; i < scores.length; i++) {
+        score += parseInt(scores[i].name);
+    }
+    document.getElementById("tally") = score;
 
     //Set array of considerations
     //Don't know how to do this
