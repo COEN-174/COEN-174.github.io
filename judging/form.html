@@ -74,7 +74,14 @@
 
     function tallyScore() {
         var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
-        var tid = '';
+   /* if(scores.length != categories.length) {
+        console.log("Fill out all categories pls");
+        return false; // Not all score fields are filled out
+    }
+    for(var i = 0; i < categories.length; i++) {
+        grades[categories[i]["innerHTML"]] = scores[i].name;
+    }*/
+         var tid = '';
         var total = 0;
         for (var i=1; i<=5; i++) {
             tid = 'q'+i;
