@@ -47,6 +47,7 @@ function teamScore() {
     for(var i = 0; i < scores.length; i++) {
         score += parseInt(scores[i].name);
     }
+    alert(score);
     document.getElementById("tally") = score;
 
     //Set array of considerations
