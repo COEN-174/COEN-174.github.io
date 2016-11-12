@@ -27,7 +27,7 @@
         <judging-category-fivepoint category_title="Visual Aids" category_parity="category_even"></judging-category-fivepoint>
         <judging-category-fivepoint category_title="Confidence and Poise" category_parity="category_odd"></judging-category-fivepoint>
 
-        <h5 id="center">Grand Total (Sum of Design Project and Presentation Totals):</h5>
+        <paper-button raised class="form-button" onclick="tallyScore()">Grand Total (Sum of Design Project and Presentation Totals):</paper-button>
         <div id="tally">
             <!-- mock div that will display score total once calculated -->
 
@@ -73,6 +73,7 @@
     }
 
     function tallyScore() {
+        var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
         var tid = '';
         var total = 0;
         for (var i=1; i<=5; i++) {
