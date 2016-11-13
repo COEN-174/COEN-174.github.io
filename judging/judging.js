@@ -6,10 +6,10 @@ function advisorReports(){
 function shanesReport() {}
 
 function teamScore() {
-    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/write_csv.php";
+    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/submit.php";
 
     //Set judge
-    var judge = document.getElementById("judge_id")["innerHTML"];
+    var username = document.getElementById("judge_id")["innerHTML"];
     //Set array of advisors
     var advisor_container = document.getElementsByClassName("advisor_container");//Array of advisors
     var advisors = [];
@@ -52,8 +52,8 @@ function teamScore() {
 
     //Build Payload
     var payload = {};
-    payload["judge"] = judge; // judge=> ""
-    payload["post_auth"] = judge_auth; //judge_auth => ""
+    payload["username"] = username;
+    payload["rest_auth"] = judge_auth; //judge_auth => ""
     payload["advisors"] = advisors; //advisors => []
     payload["project"] = project; //project => ""
     payload["members"] = team; //members => []
