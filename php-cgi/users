@@ -1,26 +1,37 @@
 [
   {
-    "id":"sballmer",
-    "auth_id":"developers",
+    "username":"sballmer",
+    "password":"developers",
     "type":["judge"],
-    "name":"Steve Ballmer"
+    "name":"Steve Ballmer",
+    "sessions":["Computer Engineering","1"]
   },
   {
-    "id":"datkinson",
-    "auth_id":"asdf",
+    "username":"datkinson",
+    "password":"yes",
     "type":["judge","advisor"],
-    "name":"Darren Atkinson"
+    "name":"Darren Atkinson",
+    "sessions":["Civil Engineering","1"]
   },
   {
-    "id":"rdavis",
-    "auth_id":"qwerty",
+    "username":"aamer",
+    "password":"yes",
+    "type":["judge","advisor"],
+    "name":"Ahmed Amer",
+    "sessions":["Computer Engineering","2"]
+  },
+  {
+    "username":"rdavis",
+    "password":"qwerty",
     "type":["advisor"],
-    "name":"Ruth Davis"
+    "name":"Ruth Davis",
+    "sessions":["Electrical Engineering","1"]
   },
   {
-    "id":"shane",
-    "auth_id":"theman",
+    "username":"shane",
+    "password":"theman",
     "type":["admin"],
-    "name":"Shane Wibeto"
+    "name":"Shane Wibeto",
+    "sessions":[]
   }
 ]
