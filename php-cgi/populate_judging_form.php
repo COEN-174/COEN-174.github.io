@@ -1,4 +1,5 @@
 <?php
+include 'check_auth.php';
 /*
 
     This script is used to populate the 
@@ -16,24 +17,14 @@ $session_keys = array_keys($session);
 if (count($check_keys) == count($session_keys)) {
     for ($i = 0; $i < count($session_keys); $i++) {
         if (!(isset($session["check_keys[$i]"]))) {
-            invalid_form();
+            invalid_form("Key length mismatch\n");
         }
     }
 
-    $check_auth = "";
-    if (file_exists("auths/" . $session["username"])) {
-        $check_auth = file_get_contents("auths/" . $session["username"]);
-        if ($session["rest_auth"] == $check_auth) {
-            $allow_get = True;
-            echo "Allow get: TRUE\n";
-        }
-    }
-    else {
-        invalid_form("No auths to be checked. Are you logged in?");
-    }
+    $allow_get = check_auth($session["username"], $session["rest_auth"]);
 
     if ($allow_get == False) {
-        invalid_form();
+        invalid_form("Wrong Credentials\n");
     }
 
     $projects_path = "projects";
