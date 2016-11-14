@@ -1,11 +1,60 @@
-function advisorReports(){
-    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/advisor_csv.php";
-    
+function advisorReport(){
+    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/advisor_report.php";
+    var name = document.getElementById("name")["innerHTML"];
+    var username = document.getElementById("username")["innerHTML"];
+    var rest_auth = document.getElementById("rest_auth")["innerHTML"];
+    var payload = {};
+    payload["name"] = name;
+    payload["username"] = username;
+    payload["rest_auth"] = rest_auth;
+    payload = JSON.stringify(payload);
+
+    var http = new XMLHttpRequest();
+    http.open("POST", API_URL, true);
+    http.setRequestHeader("Content-Type", "application/json");
+
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            console.log("Success! %s", http.responseText);
+        }
+        else if (http.readyState == 4 && http.status == 403) {
+            console.log("Could not get report %s", http.responseText);
+        }
+    }
+    http.send(payload);
 }
 
-function shanesReport() {}
 
-function teamScore() {
+function sessionReport() {
+    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/session_report.php";
+    var session = [];
+    session[0] = document.getElementById("session_name")["innerHTML"];
+    session[1] = document.getElementById("session_number")["innerHTML"];
+    var username = document.getElementById("username")["innerHTML"];
+    var rest_auth = document.getElementById("rest_auth")["innerHTML"];
+    var payload = {};
+    payload["session"] = session;
+    payload["username"] = username;
+    payload["rest_auth"] = rest_auth;
+    payload = JSON.stringify(payload);
+
+    
+    var http = new XMLHttpRequest();
+    http.open("POST", API_URL, true);
+    http.setReqestHeader("Content-Type", "application/json");
+
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            console.log("Success! %s", http.responseText);
+        }
+        else if (http.readyState == 4 && http.status == 403) {
+            console.log("Could not get report %s", http.responseText);
+        }
+    }
+    http.send(payload);
+}
+
+function submit() {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/submit.php";
 
     //Set judge
@@ -18,7 +67,7 @@ function teamScore() {
     }
 
     //Set Judge auth
-    var judge_auth = document.getElementById("judge_auth")["innerHTML"]; // This comes from logging in
+    var rest_auth = document.getElementById("rest_auth")["innerHTML"]; // This comes from logging in
     
     //Generate array of team members
     var team_container = document.getElementById("team_container");
@@ -53,7 +102,7 @@ function teamScore() {
     //Build Payload
     var payload = {};
     payload["username"] = username;
-    payload["rest_auth"] = judge_auth; //judge_auth => ""
+    payload["rest_auth"] = rest_auth; //judge_auth => ""
     payload["advisors"] = advisors; //advisors => []
     payload["project"] = project; //project => ""
     payload["members"] = team; //members => []
