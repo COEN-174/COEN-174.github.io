@@ -1,11 +1,45 @@
-function shanesReport(shane = 0){
-
-    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/shanes_report.php";
-    var username = document.getElementById("username")["innerHTML"];
-    var rest_auth = document.getElementById("rest_auth")["innerHTML"];
+function login(username, password){
+    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/login.php";
     var payload = {};
     payload["username"] = username;
+    payload["password"] = password;
+    
+    payload = JSON.stringify(payload);
+
+    var http = new XMLHttpRequest();
+    http.open("POST", API_URL, true);
+    http.setRequestHeader("Content-Type", "application/json");
+
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            console.log("Success! %s", http.responseText);
+            var user_creds = http.responseText;
+            // Will be a user object with password unset
+            /*
+                {
+                  "username":"datkinson",
+                  "name":"Darren Atkinson",
+                  "type":["judge"],
+                  "session":["Computer Engineering","1"]
+                }
+            */
+            return user_creds;
+        }
+        else if (http.readyState == 4 && http.status == 403) {
+            console.log("Could not log in");
+        }
+    }
+    http.send(payload);
+}
+
+// Will create JSON project objects to be displayed in left column
+// depending on what session the judge is judging
+function populate_column(session, rest_auth){
+    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/populate_column.php";
+    var payload = {};
+    payload["session"] = session;
     payload["rest_auth"] = rest_auth;
+    
     payload = JSON.stringify(payload);
 
     var http = new XMLHttpRequest();
@@ -19,19 +53,51 @@ function shanesReport(shane = 0){
             return return_data;
         }
         else if (http.readyState == 4 && http.status == 403) {
-            console.log("Could not get report %s", http.responseText);
+            console.log("Could not populate column %s", http.responseText);
         }
     }
     http.send(payload);
 }
 
+// Returns array of all projects and a download link to csv
+function shanesReport(username, rest_auth){
+    if (username == "shane") {
+        var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/shanes_report.php";
+        //var username = document.getElementById("username")["innerHTML"];
+        //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
+        var payload = {};
+        payload["username"] = username;
+        payload["rest_auth"] = rest_auth;
+        payload = JSON.stringify(payload);
+
+        var http = new XMLHttpRequest();
+        http.open("POST", API_URL, true);
+        http.setRequestHeader("Content-Type", "application/json");
+
+        http.onreadystatechange = function() {
+            if (http.readyState == 4 && http.status == 200) {
+                console.log("Success! %s", http.responseText);
+                var return_data = http.responseText;
+                return return_data;
+            }
+            else if (http.readyState == 4 && http.status == 403) {
+                console.log("Could not get report %s", http.responseText);
+            }
+        }
+        http.send(payload);
+    }
+    else {
+        console.log("You're not shane");
+    }
+}
+
 
 //Expects advisor = "Some Advisor"
-function advisorReport(advisor = 0){
+function advisorReport(name, username, rest_auth){
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/advisor_report.php";
-    var name = document.getElementById("name")["innerHTML"];
-    var username = document.getElementById("username")["innerHTML"];
-    var rest_auth = document.getElementById("rest_auth")["innerHTML"];
+    //var name = document.getElementById("name")["innerHTML"];
+    //var username = document.getElementById("username")["innerHTML"];
+    //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
     var payload = {};
     payload["name"] = name;
     payload["username"] = username;
@@ -57,13 +123,13 @@ function advisorReport(advisor = 0){
 
 // session should be of form ["Session","Number"]
 //      e.g. ["Computer Engineering","1"]
-function sessionReport(session = 0) {
+function sessionReport(session, username, rest_auth) {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/session_report.php";
-    var session = [];
-    session[0] = document.getElementById("session_name")["innerHTML"];
-    session[1] = document.getElementById("session_number")["innerHTML"];
-    var username = document.getElementById("username")["innerHTML"];
-    var rest_auth = document.getElementById("rest_auth")["innerHTML"];
+    //session[0] = document.getElementById("session_name")["innerHTML"];
+    //session[1] = document.getElementById("session_number")["innerHTML"];
+    //var username = document.getElementById("username")["innerHTML"];
+    //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
+
     var payload = {};
     payload["session"] = session;
     payload["username"] = username;
@@ -88,11 +154,11 @@ function sessionReport(session = 0) {
     http.send(payload);
 }
 
-function submit() {
+function submit(username, rest_auth) {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/submit.php";
 
     //Set judge
-    var username = document.getElementById("judge_id")["innerHTML"];
+    //var username = document.getElementById("judge_id")["innerHTML"];
     //Set array of advisors
     var advisor_container = document.getElementsByClassName("advisor_container");//Array of advisors
     var advisors = [];
@@ -101,7 +167,7 @@ function submit() {
     }
 
     //Set Judge auth
-    var rest_auth = document.getElementById("rest_auth")["innerHTML"]; // This comes from logging in
+    //var rest_auth = document.getElementById("rest_auth")["innerHTML"]; // This comes from logging in
     
     //Generate array of team members
     var team_container = document.getElementById("team_container");
@@ -165,14 +231,5 @@ function submit() {
     }
 
     http.send(payload);
-    });
-}
-    /* May be removed later :///
-    //Sum all selected scores
-    var score = 0;
-    for (var i = 0; i < scores.length; i++) {
-        score += parseInt(scores[i].name);
     }
-    payload["Score"] = score.toString();
-    console.log("Score: %s", payload["Score"]);
-    */
+}
