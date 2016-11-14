@@ -9,28 +9,28 @@
   {
     "username":"datkinson",
     "name":"Darren Atkinson",
-    "password":"yes",
-    "type":["judge","advisor"],
+    "password":"asdf",
+    "type":["judge"],
     "session":["Computer Engineering","1"]
   },
   {
     "username":"aamer",
     "name":"Ahmed Amer",
-    "password":"yes",
-    "type":["judge","advisor"],
+    "password":"asdf",
+    "type":["judge"],
     "session":["Computer Engineering","2"]
   },
   {
     "username":"rdavis",
     "name":"Ruth Davis",
-    "password":"qwerty",
+    "password":"asdf",
     "type":["advisor"],
     "session":["Electrical Engineering","1"]
   },
   {
     "username":"shane",
     "name":"shane",
-    "password":"theman",
+    "password":"admin",
     "type":["admin"],
     "session":["all"]
   }
