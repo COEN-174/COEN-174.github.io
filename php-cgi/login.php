@@ -37,6 +37,15 @@ for($i = 0; $i < count($users); $i++) {
             fwrite($fp, (string)$auth);
             $this_user["rest_auth"] = $auth;
             // Return user's credentials
+            /*   Note that only judges are given sessions
+                {
+                    "name":"Darren Atkinson",
+                    "username":"datkinson",
+                    "type":["judge","advisor"],
+                    "rest_auth":"23409dsad",
+                    "session":["Computer Engineering","1"]
+                }
+            */
             echo json_encode($this_user);
             fclose($fp);
             $found = True;
