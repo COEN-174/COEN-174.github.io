@@ -42,6 +42,9 @@ if (count($check_keys) == count($session_keys)) {
     $projects_to_string = json_encode($judges_projects);
     echo $projects_to_string;
 }
+else {
+    invalid_form("Failed key length check");
+}
 
 function invalid_form($msg) {
     echo "Invalid form ";

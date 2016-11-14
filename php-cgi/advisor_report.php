@@ -54,14 +54,14 @@ if (count($check_keys) == count($request_keys)) {
     echo "Passed key count check\n\n";
     for ($i = 0; $i < count($request_keys); $i++) {
         if (!(isset($request["$check_keys[$i]"]))) {
-            invalid_form();
+            invalid_form("Bad keys");
         }
     }
 
     $allow_get = check_auth($request["username"], $request["rest_auth"]);
 
     if ($allow_get == False) {
-        invalid_form();
+        invalid_form("Invalid credentials");
     }
     echo "Passed allow_get\n\n";
 
@@ -106,6 +106,17 @@ if (count($check_keys) == count($request_keys)) {
     $return_data = json_encode($advisor_report);
     echo $return_data;
 
+}
+else {
+    invalid_form("Failed key length check");
+}
+function invalid_form($msg) {
+    echo "Invalid form ";
+    if (isset($msg)) {
+        echo ": message:" . $msg;
+    }
+    http_response_code(403);
+    exit();
 }
 
 ?>
