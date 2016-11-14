@@ -26,7 +26,7 @@ if (count($check_keys) == count($request_keys)) {
         invalid_form("Invalid credentials");
     }
 
-    echo "Passed allow_get\n\n";
+    echo "Passed check_auth\n\n";
 
     //Passed authentication. Lets deliver some reports
     $session_name = $request["session"][0];

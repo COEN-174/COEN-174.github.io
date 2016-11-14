@@ -67,6 +67,7 @@ if (count($check_keys) == count($submission_keys)) {
     $submissions_to_string = json_encode($submissions_to_json); // Score is now a json string
     echo var_dump($submissions_to_string);
     file_put_contents($judges_file, $submissions_to_string); // Write to file
+    echo "Score submitted\n";
 }
 // Failed size comparison
 else {
