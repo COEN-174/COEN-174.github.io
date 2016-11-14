@@ -4,34 +4,34 @@
     "password":"developers",
     "type":["judge"],
     "name":"Steve Ballmer",
-    "sessions":["Computer Engineering","1"]
+    "session":["Computer Engineering","1"]
   },
   {
     "username":"datkinson",
     "password":"yes",
     "type":["judge","advisor"],
     "name":"Darren Atkinson",
-    "sessions":["Civil Engineering","1"]
+    "session":["Civil Engineering","1"]
   },
   {
     "username":"aamer",
     "password":"yes",
     "type":["judge","advisor"],
     "name":"Ahmed Amer",
-    "sessions":["Computer Engineering","2"]
+    "session":["Computer Engineering","2"]
   },
   {
     "username":"rdavis",
     "password":"qwerty",
     "type":["advisor"],
     "name":"Ruth Davis",
-    "sessions":["Electrical Engineering","1"]
+    "session":["Electrical Engineering","1"]
   },
   {
     "username":"shane",
     "password":"theman",
     "type":["admin"],
     "name":"Shane Wibeto",
-    "sessions":[]
+    "session":[]
   }
 ]
