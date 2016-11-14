@@ -42,7 +42,7 @@ if (count($check_keys) == count($request_keys)) {
             $score_array = (Array) $scores[$i];
             if (($score_array["session"][0] == $session_name) && ($score_array["session"][1] == $session_number)) {
                 $project_name = $score_array["project"];
-                $judge_name = $score_array["name"];
+                $judges_name = $score_array["name"];
                 $temp = $score_array;
                 unset($temp["project"]);
                 unset($temp["members"]);
@@ -54,7 +54,7 @@ if (count($check_keys) == count($request_keys)) {
                     $session_report["$project_name"] = [];
                     $session_report["$project_name"]["members"] = $score_array["members"];
                     $session_report["$project_name"]["advisors"] = $score_array["advisors"];
-                    $session_report["$project_name"]["scores"]["$judge_name"] = $temp;
+                    $session_report["$project_name"]["scores"]["$judges_name"] = $temp;
                     
                 }
                 else {
