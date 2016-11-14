@@ -1,4 +1,33 @@
-function advisorReport(){
+function shanesReport(shane = 0){
+
+    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/shanes_report.php";
+    var username = document.getElementById("username")["innerHTML"];
+    var rest_auth = document.getElementById("rest_auth")["innerHTML"];
+    var payload = {};
+    payload["username"] = username;
+    payload["rest_auth"] = rest_auth;
+    payload = JSON.stringify(payload);
+
+    var http = new XMLHttpRequest();
+    http.open("POST", API_URL, true);
+    http.setRequestHeader("Content-Type", "application/json");
+
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            console.log("Success! %s", http.responseText);
+            var return_data = http.responseText;
+            return return_data;
+        }
+        else if (http.readyState == 4 && http.status == 403) {
+            console.log("Could not get report %s", http.responseText);
+        }
+    }
+    http.send(payload);
+}
+
+
+//Expects advisor = "Some Advisor"
+function advisorReport(advisor = 0){
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/advisor_report.php";
     var name = document.getElementById("name")["innerHTML"];
     var username = document.getElementById("username")["innerHTML"];
@@ -16,6 +45,8 @@ function advisorReport(){
     http.onreadystatechange = function() {
         if (http.readyState == 4 && http.status == 200) {
             console.log("Success! %s", http.responseText);
+            var return_data = http.responseText;
+            return return_data;
         }
         else if (http.readyState == 4 && http.status == 403) {
             console.log("Could not get report %s", http.responseText);
@@ -24,8 +55,9 @@ function advisorReport(){
     http.send(payload);
 }
 
-
-function sessionReport() {
+// session should be of form ["Session","Number"]
+//      e.g. ["Computer Engineering","1"]
+function sessionReport(session = 0) {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/session_report.php";
     var session = [];
     session[0] = document.getElementById("session_name")["innerHTML"];
@@ -46,6 +78,8 @@ function sessionReport() {
     http.onreadystatechange = function() {
         if (http.readyState == 4 && http.status == 200) {
             console.log("Success! %s", http.responseText);
+            var return_data = http.responseText;
+            return return_data;
         }
         else if (http.readyState == 4 && http.status == 403) {
             console.log("Could not get report %s", http.responseText);
@@ -122,6 +156,7 @@ function submit() {
         if (http.readyState == 4 && http.status == 200) {
             console.log("Success! %s", http.responseText);
             response = http.responseText;
+            return response;
         }
         else if (http.readyState == 4 && http.status == 403) {
             console.log("Wrong credentials: Error %d", http.status);
