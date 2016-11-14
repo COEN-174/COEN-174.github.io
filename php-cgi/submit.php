@@ -1,9 +1,10 @@
 <?php
-
+include 'check_auth.php';
 /*
     This script takes a json scoring object like
     {
         "username":"datkinson",
+        "name":"Darren Atkinson",
         "rest_auth":"12308df",
         "advisors":["Einstein","Betty Young"],
         "session":["Computer Engineering":"1"];
@@ -21,7 +22,7 @@ $submission = file_get_contents("php://input");
 $submission = json_decode($submission, true);
 // Checking for legitimate data
 $allow_post = False;
-$check_keys = ["username","rest_auth","advisors","session","project","members","grades","considerations","comments"];
+$check_keys = ["name","username","rest_auth","advisors","session","project","members","grades","considerations","comments"];
 
 // Checking for legitimate keys
 $submission_keys = array_keys($submission);
@@ -29,29 +30,19 @@ $submission_keys = array_keys($submission);
 if (count($check_keys) == count($submission_keys)) {
     for ($i = 0; $i < count($submission_keys); $i++) {
         if (!(isset($submission["$check_keys[$i]"]))) {
-            invalid_form();
+            invalid_form("Unknown key");
         }
     }
 
     // Check if user is auth'd to post
-    $check_auth = "";
-    if (file_exists("auths/" . $submission["username"])) {
-        $check_auth = file_get_contents("auths/" . $submission["username"]);
-        if ($submission["rest_auth"] == $check_auth) {
-            $allow_post = True;
-            echo "Allow post: TRUE\n";
-        }
-    }
-    else {
-        invalid_form("No auths to be checked. Are you logged in?");
-    }
+    $allow_post = check_auth($submission["username"], $submission["rest_auth"]);
 
     if ($allow_post == False) {
-        invalid_form();
+        invalid_form("Auth does not match");
     }
     
     // Set judges file structure scores/json/judges/judgeid
-    $judges_path =  "scores/" . "json/" . "judges/";
+    $judges_path =  "scores/json/judges/";
     $judges_file = $judges_path . $submission["username"];
     if (!(file_exists($judges_path))) {
         echo "Judge's path does not exist, creating...\n";
@@ -79,7 +70,7 @@ if (count($check_keys) == count($submission_keys)) {
 }
 // Failed size comparison
 else {
-    invalid_form();
+    invalid_form("No auths to be checked. Are you logged in?");
 }
 
 function invalid_form($msg) {
