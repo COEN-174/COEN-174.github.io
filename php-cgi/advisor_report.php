@@ -50,6 +50,7 @@ $request = json_decode($request, true);
 $allow_get = False;
 $check_keys = ["name","username","rest_auth"];
 $request_keys = array_keys($request);
+/*
 if (count($check_keys) == count($request_keys)) {
     echo "Passed key count check\n\n";
     for ($i = 0; $i < count($request_keys); $i++) {
@@ -64,7 +65,7 @@ if (count($check_keys) == count($request_keys)) {
         invalid_form("Invalid credentials");
     }
     echo "Passed allow_get\n\n";
-
+*/
     // Passed authentication. Lets deliver some reports
     // Gather up all json from scores/json/judges/*
     $advisor_name = $request["name"];
@@ -103,9 +104,25 @@ if (count($check_keys) == count($request_keys)) {
         }
     }
 
+    $advisor_csv = $advisor_report;
+    $projects_keys = array_keys($advisor_csv);
+    $project_scores = [];
+
+    foreach($advisor_csv as $project) {
+        foreach($project["scores"] as $judge) {
+            array_push($project_scores, $judge["final_score"];
+        }
+    }
+    $csv = array($projects_keys, $project_scores);
+    $fp = fopen("advisor.csv", "w+");
+    foreach($csv as $line) {
+        fputcsv($fp,$line);
+    }
+    fclose($fp);
+    $advisor_report["download_link"] = "http://students.engr.scu.edu/~pmiller/website/advisor.csv";
     $return_data = json_encode($advisor_report);
     echo $return_data;
-
+/*
 }
 else {
     invalid_form("Failed key length check");

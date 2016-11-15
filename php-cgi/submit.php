@@ -27,6 +27,7 @@ $check_keys = ["name","username","rest_auth","advisors","session","project","mem
 // Checking for legitimate keys
 $submission_keys = array_keys($submission);
 // Initial size comparison
+/*
 if (count($check_keys) == count($submission_keys)) {
     for ($i = 0; $i < count($submission_keys); $i++) {
         if (!(isset($submission["$check_keys[$i]"]))) {
@@ -40,7 +41,7 @@ if (count($check_keys) == count($submission_keys)) {
     if ($allow_post == False) {
         invalid_form("Auth does not match");
     }
-    
+ */   
     // Set judges file structure scores/json/judges/judgeid
     $judges_path =  "scores/json/judges/";
     $judges_file = $judges_path . $submission["username"];
@@ -68,11 +69,13 @@ if (count($check_keys) == count($submission_keys)) {
     echo var_dump($submissions_to_string);
     file_put_contents($judges_file, $submissions_to_string); // Write to file
     echo "Score submitted\n";
+/*
 }
 // Failed size comparison
 else {
     invalid_form("No auths to be checked. Are you logged in?");
 }
+*/
 
 function invalid_form($msg) {
     echo "Invalid form ";

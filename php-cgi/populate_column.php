@@ -12,8 +12,9 @@ include 'check_auth.php';
 $session = file_get_contents("php://input");
 $session = json_decode($session, true);
 $allow_get = False;
-$check_keys = ["mode","rest_auth"];
+$check_keys = ["session","rest_auth"];
 $session_keys = array_keys($session);
+/*
 if (count($check_keys) == count($session_keys)) {
     for ($i = 0; $i < count($session_keys); $i++) {
         if (!(isset($session["check_keys[$i]"]))) {
@@ -26,7 +27,7 @@ if (count($check_keys) == count($session_keys)) {
     if ($allow_get == False) {
         invalid_form("Wrong Credentials\n");
     }
-
+*/
     $projects_path = "projects";
     $projects = file_get_contents($projects_path);
     $projects = json_decode($projects);
@@ -41,11 +42,13 @@ if (count($check_keys) == count($session_keys)) {
     }
     $projects_to_string = json_encode($judges_projects);
     echo $projects_to_string;
+    /*
 }
+
 else {
     invalid_form("Failed key length check");
 }
-
+*/
 function invalid_form($msg) {
     echo "Invalid form ";
     if (isset($msg)) {

@@ -10,7 +10,7 @@ $request = json_decode($request, true);
 $allow_get = False;
 $check_keys = ["username","rest_auth"];
 $request_keys = array_keys($request);
-
+/*
 if (count($check_keys) == count($request_keys)) {
     echo "Passed key count check\n\n";
     for ($i = 0; $i < count($request_keys); $i++) {
@@ -26,7 +26,7 @@ if (count($check_keys) == count($request_keys)) {
     }
 
     echo "Passed check_auth\n\n";
-
+*/
     $shanes_report = [];
     $judges_path = "scores/json/judges/*";
 
@@ -57,12 +57,33 @@ if (count($check_keys) == count($request_keys)) {
             }
         }
     }
+
+$shane_csv = $shanes_report;
+$projects_keys = array_keys($shane_csv);
+$project_scores = [];
+
+foreach($shane_csv as $project) {
+    foreach($project["scores"] as $judge) {
+        array_push($project_scores, $judge["final_score"]);
+    }
+}
+
+$csv = array($project_keys, $project_scores);
+$fp = fopen("shane.csv","w+");
+foreach($csv as $line) {
+    fputcsv($fp,$line);
+}
+fclose($fp);
+$shanes_report["download_link"] = "http://students.engr.scu.edu/~pmiller/website/shane.csv";
+
     $return_data = json_encode($shanes_report);
     echo $return_data;
+    /*
 }
 else {
     invalid_form("Failed key length check");
 }
+*/
 
 function invalid_form($msg) {
     echo "Invalid form ";

@@ -1,12 +1,14 @@
 <?php
-function stripWhiteSpace($strang){
-    $strang = preg_replace('/\s+/', '', $strang);
-    return $strang;
-}
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
-$data = file_get_contents("php://input");
+$request = file_get_contents("php://input");
+$request = json_decode($request);
 
+//request must be ["report_type","Name of person who is requesting",["Session","number"]]
+
+
+
+/*
 // date/judges/teams_associated_with_judges.csv
 // date/advisors/teams_associated_with_advisors.csv (indv scores)
 // date/shane.csv <-- appended to every time
@@ -21,4 +23,5 @@ array_walk($csv, function(&$a) use ($csv) {
 });
 array_shift($csv);
 echo $csv;
+*/
 ?>

@@ -1,2 +1,2 @@
 #!/bin/sh
-exec $HTTP_SERVER_DIR/php-cgi "$@"
+exec $HTTP_SERVER_DIR/website/php-cgi "$@"

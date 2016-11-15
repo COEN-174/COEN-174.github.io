@@ -93,14 +93,14 @@ function shanesReport(username, rest_auth){
 
 
 //Expects advisor = "Some Advisor"
-function advisorReport(name, username, rest_auth){
+function advisorReport(){
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/advisor_report.php";
     //var name = document.getElementById("name")["innerHTML"];
     //var username = document.getElementById("username")["innerHTML"];
     //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
     var payload = {};
-    payload["name"] = name;
-    payload["username"] = username;
+    payload["name"] = "Ahmed Amer";
+    payload["username"] = "aamer";
     payload["rest_auth"] = rest_auth;
     payload = JSON.stringify(payload);
 
@@ -123,13 +123,14 @@ function advisorReport(name, username, rest_auth){
 
 // session should be of form ["Session","Number"]
 //      e.g. ["Computer Engineering","1"]
-function sessionReport(session, username, rest_auth) {
+//function sessionReport(session, username, rest_auth) {
+function sessionReport() {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/session_report.php";
     //session[0] = document.getElementById("session_name")["innerHTML"];
     //session[1] = document.getElementById("session_number")["innerHTML"];
     //var username = document.getElementById("username")["innerHTML"];
     //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
-
+    session = ["Computer Engineering","1"];
     var payload = {};
     payload["session"] = session;
     payload["username"] = username;
@@ -231,5 +232,4 @@ function submit(username, rest_auth) {
     }
 
     http.send(payload);
-    }
 }

@@ -10,7 +10,7 @@ $request = file_get_contents("php://input");
 $request = json_decode($request, true);
 $allow_get = False;
 $check_keys = ["session","rest_auth","username"];
-
+/*
 $request_keys = array_keys($request);
 
 if (count($check_keys) == count($request_keys)) {
@@ -29,6 +29,7 @@ if (count($check_keys) == count($request_keys)) {
     echo "Passed check_auth\n\n";
 
     //Passed authentication. Lets deliver some reports
+    */
     $session_name = $request["session"][0];
     $session_number = $request["session"][1];
     $session_report = [];
@@ -64,13 +65,30 @@ if (count($check_keys) == count($request_keys)) {
             }
         }
     }
+    $fp = fopen("session.csv","w+");
+    $temp = $session_report;
+    $projects_keys = array_keys($temp);
+    $project_scores = [];
+    foreach($temp as $project) {
+        foreach($project["scores"] as $judge) {
+            array_push($project_scores, $judge["final_score"]);
+        }
+    }
+    $csv = array($projects_keys, $project_scores);
+    foreach($csv as $line) {
+        fputcsv($fp,$line);
+    }
+    $session_report["download_link"] = "http://students.engr.scu.edu/~pmiller/website/session.csv";
+    fclose($fp);
     $return_data = json_encode($session_report);
+
     echo $return_data;
+    /*
 }
 else {
     invalid_form("Failed key length check");
 }
-
+*/
 function invalid_form($msg) {
     echo "Invalid form ";
     if (isset($msg)) {
