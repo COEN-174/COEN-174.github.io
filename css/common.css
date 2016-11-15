@@ -67,8 +67,8 @@ paper-button.session-chooser-topical-button[active] {
     text-align: center;
 }
 #tally{
-    height: 50px;
-    /*border: 1px solid gray;*/
+    height: 60px;
+    border: 1px solid gray;
     width: 10%;
     margin: auto;
     text-align: center;
@@ -137,7 +137,6 @@ paper-button.session-chooser-topical-button[active] {
     padding-right: 50px;
 }
 #total {
-    margin: auto;
     width: 70%;
 }
 #totalButton {
