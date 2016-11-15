@@ -73,6 +73,7 @@ paper-button.session-chooser-topical-button[active] {
     margin: auto;
     text-align: center;
     font-family: "Roboto";
+    padding: 2%;
 }
 
 .form-actionable-container{
