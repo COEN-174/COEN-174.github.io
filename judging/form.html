@@ -27,11 +27,10 @@
         <judging-category-fivepoint category_title="Visual Aids" category_parity="category_even"></judging-category-fivepoint>
         <judging-category-fivepoint category_title="Confidence and Poise" category_parity="category_odd"></judging-category-fivepoint>
 
-        <paper-button raised class="form-button" onclick="tallyScore()">Grand Total (Sum of Design Project and Presentation Totals):</paper-button>
+        <paper-button raised class="form-button" id="totalButton" onclick="tallyScore()">Grand Total (Sum of Design Project and Presentation Totals):</paper-button>
         <div>
-            <p id="tally"></p>
+            <h3 id="tally"></h3>
             <!-- mock div that will display score total once calculated -->
-
         </div><br>
 
         <div class="form-actionable-container">
