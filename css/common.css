@@ -135,6 +135,9 @@ paper-button.session-chooser-topical-button[active] {
     padding-left:50px;
     padding-right: 50px;
 }
+#totalButton{
+    margin: auto;
+}
 .sidebar_cell_separator {
     height: 1px;
     width: 100%;
