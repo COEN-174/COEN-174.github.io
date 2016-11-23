@@ -200,6 +200,8 @@ function submit(username, rest_auth) {
 
     //Set array of considerations
     //Don't know how to do this
+    //adding in another dummy var
+    var considerations = "None for now";
 
     //Set Comments
     var comments = document.getElementsByClassName("mirror-text style-scope iron-autogrow-textarea");
