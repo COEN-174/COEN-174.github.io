@@ -182,7 +182,9 @@ function submit(username, rest_auth) {
     }*/
 
     //Generate project name
-    var project = document.getElementById("project_id")["innerHTML"];
+    //var project = document.getElementById("project_id")["innerHTML"];
+    //project_id is not an element in the document
+    var project = "Project";        //assigned a dummy value for now
 
     //Generate hash of categories -> scores
     var grades = {};
