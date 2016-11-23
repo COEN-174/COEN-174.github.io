@@ -174,9 +174,12 @@ function submit(username, rest_auth) {
     var team_container = document.getElementById("team_container");
     team_container = team_container.getElementsByClassName("chip noselect");
     var team = [];
-    for(var i = 0; i < teamMembers.length; i++) {
-        team.push(teamMembers[i]["innerHTML"]);
+    for(var i=0; i < team_container.length; i++) {
+        team.push(team_container[i]["innerHTML"]);
     }
+    /*for(var i = 0; i < teamMembers.length; i++) {
+        team.push(teamMembers[i]["innerHTML"]);
+    }*/
 
     //Generate project name
     var project = document.getElementById("project_id")["innerHTML"];
