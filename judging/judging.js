@@ -157,17 +157,6 @@ function sessionReport() {
 
 function submit(username, rest_auth) {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/submit.php";
-    //check if all required areas are filled first
-    var grades = {};
-    var categories = document.getElementsByClassName("category_label noselect style-scope judging-category-fivepoint");
-    var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
-    if(scores.length != categories.length) {
-        alert ("Fill out all categories pls");
-        return false; // Not all score fields are filled out
-    }
-    for(var i = 0; i < categories.length; i++) {
-        grades[categories[i]["innerHTML"]] = scores[i].name;
-    }
 
     //Set judge
     //var username = document.getElementById("judge_id")["innerHTML"];
@@ -198,7 +187,7 @@ function submit(username, rest_auth) {
     var project = "Project";        //assigned a dummy value for now
 
     //Generate hash of categories -> scores
-    /*var grades = {};
+    var grades = {};
     var categories = document.getElementsByClassName("category_label noselect style-scope judging-category-fivepoint");
     var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
     if(scores.length != categories.length) {
@@ -207,7 +196,7 @@ function submit(username, rest_auth) {
     }
     for(var i = 0; i < categories.length; i++) {
         grades[categories[i]["innerHTML"]] = scores[i].name;
-    }*/
+    }
 
     //Set array of considerations
     //Don't know how to do this
