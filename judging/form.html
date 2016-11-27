@@ -53,7 +53,7 @@
             <paper-textarea class="form-comments-input" name="comments" label="Comments (optional)"></paper-textarea>
         </div>
         <div id="button-container">
-            <paper-button raised class="form-button" onclick="submit()">Submit</paper-button>
+            <paper-button raised class="form-button" onclick="submitForm()">Submit</paper-button>
             <!--<paper-button raised class="form-button" onclick="_submit(event)">Submit</paper-button>-->
             <paper-button raised class="form-button" onclick="_reset(event)">Reset</paper-button>
         </div>
@@ -71,4 +71,18 @@
 
         return true;
     }
+    
+    function submitForm() {
+        var categories = document.getElementsByClassName("category_label noselect style-scope judging-category-fivepoint");
+        var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
+        if(scores.length != categories.length) {
+            alert ("Fill out all categories pls");
+            return false; // Not all score fields are filled out
+        }
+        else {
+            submit();
+            return true;
+        }
+    }
+    
 </script>
