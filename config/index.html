@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuration</title>
+    <base href="..">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
 
-    <link rel="import" href="../common.html">
-    <link rel="import" href="../custom-modules/paper-autocomplete.html">
-    <link rel="import" href="../custom-modules/paper-chips.html">
+    <link rel="import" href="common.html">
+    <link rel="import" href="custom-modules/paper-autocomplete.html">
+    <link rel="import" href="custom-modules/paper-chips.html">
 
-    <link rel="stylesheet" type="text/css" href="../css/common.css" />
-    <link rel="stylesheet" type="text/css" href="../css/config.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/config.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-    <link rel="import" type="text/html" id="advisor_form_template" href="edit-advisor.html">
-    <link rel="import" type="text/html" id="judge_form_template" href="edit-judge.html">
-    <link rel="import" type="text/html" id="session_form_template" href="edit-session.html">
-    <script src="config.js"></script>
+    <link rel="import" type="text/html" id="advisor_form_template" href="config/edit-advisor.html">
+    <link rel="import" type="text/html" id="judge_form_template" href="config/edit-judge.html">
+    <link rel="import" type="text/html" id="session_form_template" href="config/edit-session.html">
+    <link rel="import" type="text/html" id="project_form_template" href="config/edit-project.html">
+    <link rel="import" type="text/html" id="admin_form_template" href="config/edit-admin.html">
+    <script src="config/config.js"></script>
 </head>
 <body unresolved>
 <dom-module id="app-main">
@@ -25,7 +28,7 @@
         <paper-drawer-panel>
             <paper-header-panel drawer id="drawer-panel">
                 <paper-toolbar>
-                    <iron-image sizing="contain" id="hero_image" src="../img/hero_logo_white.png"></iron-image>
+                    <iron-image sizing="contain" id="hero_image" src="img/hero_logo_white.png"></iron-image>
                 </paper-toolbar>
                 <template is="dom-bind" id="type_sidebar">
                     <paper-menu id="sidebar_menu">
@@ -72,7 +75,7 @@
     <script>
         var _userId;
         var _selectedId;
-        var login_location = "../";
+        var login_location = "./";
         var objArray = [];
         var isCreateNewEnabled = false;
 
@@ -81,18 +84,19 @@
                 is: "app-main",
                 ready: function() {
                     var type_sidebar = document.querySelector('#type_sidebar');
-                    type_sidebar.type_items = ["Judges", "Advisors", "Sessions", "Projects"];
-                    getJudges("0", function(_) {
+                    type_sidebar.type_items = ["Judges", "Advisors", "Sessions", "Projects", "Administrators"];
+                    setTimeout(function(){
                         _finishPageSetup();
-                    });
+                    },300);
                 },
                 go_back: function() {
-                    window.location = "../";
+                    window.location = "./";
                 }
             });
         });
         function add_button_tapped() {
-
+            var button = document.querySelector('#add-button');
+            button.disabled = true;
             isCreateNewEnabled = true;
             var form_clone;
             var new_sidebar_item;
@@ -108,29 +112,45 @@
                     var form_template_import = document.querySelector('#judge_form_template');
                     var form_template_content = form_template_import.import.querySelector('#judge_form');
                     form_clone = form_template_content.cloneNode(true);
+                    document.querySelector('#content_form_view').appendChild(form_clone);
                     break;
                 case 1:
                     var form_template_import = document.querySelector('#advisor_form_template');
                     var form_template_content = form_template_import.import.querySelector('#advisor_form');
                     form_clone = form_template_content.cloneNode(true);
+                    document.querySelector('#content_form_view').appendChild(form_clone);
                     break;
                 case 2:
                     var form_template_import = document.querySelector('#session_form_template');
                     var form_template_content = form_template_import.import.querySelector('#session_form');
                     form_clone = form_template_content.cloneNode(true);
+                    document.querySelector('#content_form_view').appendChild(form_clone);
+                    populate_session(null);
                     break;
                 case 3:
-
+                    var form_template_import = document.querySelector('#project_form_template');
+                    var form_template_content = form_template_import.import.querySelector('#project_form');
+                    form_clone = form_template_content.cloneNode(true);
+                    document.querySelector('#content_form_view').appendChild(form_clone);
+                    populate_project(null);
+                    break;
+                case 4:
+                    var form_template_import = document.querySelector('#admin_form_template');
+                    var form_template_content = form_template_import.import.querySelector('#admin_form');
+                    form_clone = form_template_content.cloneNode(true);
+                    document.querySelector('#content_form_view').appendChild(form_clone);
+                    populate_project(null);
                     break;
                 default:
             }
-            document.querySelector('#content_form_view').appendChild(form_clone);
         }
         function _finishPageSetup() {
             var menu = document.getElementById('sidebar_menu');
             menu.addEventListener("iron-select", function(){
                 if (isCreateNewEnabled) {
                     isCreateNewEnabled = false;
+                    var button = document.querySelector('#add-button');
+                    button.disabled = false;
                 }
                 _selectedIdx = menu.selected/2;
                 var sidebar_menu = document.querySelector('#secondary_sidebar');
@@ -171,6 +191,14 @@
                             applySecondarySideBarStateLoading(false);
                         });
                         break;
+                    case 4:
+                        applySecondarySideBarStateLoading(true);
+                        getAdmins("0", function(projects) {
+                            objArray = projects;
+                            sidebar_menu.type_items = projects;
+                            applySecondarySideBarStateLoading(false);
+                        });
+                        break;
                     default:
                 }
                 var content_form_view = document.querySelector('#content_form_view');
@@ -190,6 +218,8 @@
                     type_items.pop();
                     sidebar_menu.type_items = type_items;
                     isCreateNewEnabled = false;
+                    var button = document.querySelector('#add-button');
+                    button.disabled = false;
                 }
                 _selectedId = objArray[_internalIdx]["id"];
 
@@ -225,14 +255,25 @@
                         });
                         break;
                     case 3:
-
+                        var form_template_import = document.querySelector('#project_form_template');
+                        var form_template_content = form_template_import.import.querySelector('#project_form');
+                        form_clone = form_template_content.cloneNode(true);
+                        document.querySelector('#content_form_view').appendChild(form_clone);
+                        populate_project(function() {
+                            applyFormStateLoading(false);
+                        });
+                        break;
+                    case 4:
+                        var form_template_import = document.querySelector('#admin_form_template');
+                        var form_template_content = form_template_import.import.querySelector('#admin_form');
+                        form_clone = form_template_content.cloneNode(true);
+                        document.querySelector('#content_form_view').appendChild(form_clone);
+                        populate_admin(function() {
+                            applyFormStateLoading(false);
+                        });
                         break;
                     default:
                 }
-//                var content_form_view = document.querySelector('#content_form_view');
-//                if (stateLoading) {
-//                    content_form_view.removeChild(content_form_view.lastChild);
-//                }
             });
         }
         var stateLoading = false;

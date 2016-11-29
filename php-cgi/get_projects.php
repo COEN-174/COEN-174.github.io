@@ -5,7 +5,7 @@
  * Date: 11/15/16
  * Time: 5:06 AM
  */
-$projects_file = file_get_contents('./data/projects');
+$projects_file = file_get_contents('./data/projects.json');
 $projects = json_decode($projects_file, true);
 $advisors = array();
 $project_id = "";

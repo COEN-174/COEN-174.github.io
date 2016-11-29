@@ -1,15 +1,16 @@
 <meta charset="UTF-8">
-<div id="session_form" style="padding: 20px;">
+<div id="project_form" style="padding: 20px;">
     <br/>
     <br/>
+    <paper-input id="name_input" class="flexchild" label="Name"></paper-input>
     <br/>
-    <paper-input-autocomplete id="name_input" class="flexchild" search-property="name" label="Department"></paper-input-autocomplete>
+    <paper-input-autocomplete id="advisor_input" class="flexchild" search-property="name" label="Advisor"></paper-input-autocomplete>
     <br/>
-    <paper-input id="substr_input" class="flexchild" label="Suffix or Number" type="number"></paper-input>
+    <paper-input-autocomplete id="project_input" class="flexchild" search-property="name" label="project"></paper-input-autocomplete>
     <br/>
     <br/>
-    <label style="font-family:'Roboto'; margin-right:10px">Projects</label><br/><br/>
-    <template is="dom-bind" id="session-data-entry">
+    <label style="font-family:'Roboto'; margin-right:10px">Members</label><br/><br/>
+    <template is="dom-bind" id="project-data-entry">
         <paper-chips items="[[chips]]" id="team-chip-container"></paper-chips>
     </template>
     <br/>
@@ -21,8 +22,8 @@
     </div>
 </div>
 <script>
-    function populate_session(callback) {
-        var scope = document.querySelector('#session-data-entry');
+    function populate_project(callback) {
+        var scope = document.querySelector('#project-data-entry');
         scope.chips = [
             { id: 'apples', name: 'Apples' }
         ];

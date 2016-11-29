@@ -1,4 +1,4 @@
-var _apiBaseURL = "./../php-cgi/";
+var _apiBaseURL = "./php-cgi/";
 
 function _doGet(path, data, callback) {
     var request = new XMLHttpRequest();
@@ -13,7 +13,6 @@ function _doGet(path, data, callback) {
         }
         url += str.join("&");
     }
-    console.log(url);
     request.open("GET", url, true);
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function() {

@@ -137,6 +137,12 @@ paper-button.session-chooser-topical-button[active] {
     padding-left:50px;
     padding-right: 50px;
 }
+.form-button-secondary {
+    background-color: grey;
+    color: white;
+    padding-left:50px;
+    padding-right: 50px;
+}
 #total {
     margin: auto;
     width: 70%;

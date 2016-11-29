@@ -9,7 +9,7 @@
             border-radius: 10px;
         }
     </style>
-    <img sizing="contain" id="bar_hero_image" src="./../img/generic_user.jpeg">
+    <img sizing="contain" id="bar_hero_image" src="img/generic_user.jpeg">
     <br/>
     <paper-input id="name_input" class="flexchild" label="Name"></paper-input>
     <br/>
@@ -23,7 +23,10 @@
     <br/>
     <paper-input-autocomplete id="vegetables" label="Change Session" search-property="name"></paper-input-autocomplete>
     <br/>
-    <paper-button raised class="form-button" onclick="submitForm()">Submit</paper-button>
+    <div class="config_button_container">
+        <paper-button raised class="form-button" onclick="submitForm()">Submit</paper-button>
+        <paper-button raised class="form-button-secondary" onclick="deleteRequest()">Delete</paper-button>
+    </div>
 </div>
 <script>
     function populate_judge(callback) {
