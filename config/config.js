@@ -3,25 +3,8 @@
  */
 var _apiBaseURL = "./../php-cgi/";
 
-function getProject(auth_id, identifier, callback) {
-    _doGet("list_projects.php", {"auth_id": auth_id, "id": identifier}, function(object) {
-        if (object.success && object.data) {
-            callback(object.data.project);
-        }
-    });
-}
-
-function getProjects(auth_id, callback) {
-    _doGet("list_projects.php", {"auth_id": auth_id}, function(object) {
-        if (object.success && object.data) {
-            callback(object.data.projects);
-        }
-    });
-}
-
 function getAdvisor(auth_id, identifier, callback) {
-    _doGet("list_advisors.php", {"auth_id": auth_id, "id": identifier}, function(object) {
-        console.log(object);
+    _doGet("get_advisors.php", {"auth_id": auth_id, "id": identifier}, function(object) {
         if (object.success && object.data) {
             callback(object.data.advisor);
         }
@@ -29,9 +12,49 @@ function getAdvisor(auth_id, identifier, callback) {
 }
 
 function getAdvisors(auth_id, callback) {
-    _doGet("list_advisors.php", {"auth_id": auth_id}, function(object) {
+    _doGet("get_advisors.php", {"auth_id": auth_id}, function(object) {
         if (object.success && object.data) {
             callback(object.data.advisors);
+        }
+    });
+}
+
+function getJudge(auth_id, identifier, callback) {
+    _doGet("get_judges.php", {"auth_id": auth_id, "id": identifier}, function(object) {
+        if (object.success && object.data) {
+            callback(object.data.judge);
+        }
+    });
+}
+
+function getJudges(auth_id, callback) {
+    _doGet("get_judges.php", {"auth_id": auth_id}, function(object) {
+        if (object.success && object.data) {
+            callback(object.data.judges);
+        }
+    });
+}
+
+function getProject(auth_id, identifier, callback) {
+    _doGet("get_projects.php", {"auth_id": auth_id, "id": identifier}, function(object) {
+        if (object.success && object.data) {
+            callback(object.data.project);
+        }
+    });
+}
+
+function getProjects(auth_id, callback) {
+    _doGet("get_projects.php", {"auth_id": auth_id}, function(object) {
+        if (object.success && object.data) {
+            callback(object.data.projects);
+        }
+    });
+}
+
+function getSessions(auth_id, callback) {
+    _doGet("get_sessions.php", {"auth_id": auth_id}, function(object) {
+        if (object.success && object.data) {
+            callback(object.data.sessions);
         }
     });
 }
@@ -53,7 +76,7 @@ function _doGet(path, data, callback) {
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function() {
         if (request.readyState === XMLHttpRequest.DONE) {
-            // console.log(request.responseText);
+            console.log(request.responseText);
             if (request.status === 200) {
                 var data = request.responseText ? JSON.parse(request.responseText) : null;
                 callback({"data": data, "success": true});

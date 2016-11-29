@@ -13,6 +13,7 @@ function _doGet(path, data, callback) {
         }
         url += str.join("&");
     }
+    console.log(url);
     request.open("GET", url, true);
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function() {
@@ -55,7 +56,6 @@ var sessionIdentifierLength = 3;
 var projectIdentifierLength = 3;
 
 var advisorsFile = "json/advisors.json";
-var advAuthIdentifierLength = 4;
 var advIdentifierLength = 3;
 
 function tryAuth(identifier, callback) {
@@ -67,7 +67,7 @@ function tryAuth(identifier, callback) {
 }
 
 function getProjectsList(identifier, callback) {
-    _doGet("list_projects.php", {"user_id": identifier}, function(object) {
+    _doGet("get_projects.php", {"user_id": identifier}, function(object) {
         if (object.success && object.data) {
             callback(object.data);
         }

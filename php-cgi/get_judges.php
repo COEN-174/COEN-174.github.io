@@ -7,14 +7,14 @@
  */
 $users_file = file_get_contents('./data/users.json');
 $users = json_decode($users_file, true);
-$advisors = array();
+$judges = array();
 $user_id = "";
 if (isset($_GET['id'])) {
     $user_id = $_GET["id"];
     $found = False;
     foreach($users as &$user) {
         if ($user_id == $user["id"]) {
-            $returnobj["advisor"] = $user;
+            $returnobj["judge"] = $user;
             echo json_encode($returnobj);
             $found = True;
             break;
@@ -27,13 +27,13 @@ if (isset($_GET['id'])) {
     http_response_code(200);
 } else {
     foreach($users as &$user) {
-        if ($user["type"] == "advisor") {
+        if ($user["type"] == "judge") {
             $userObj["id"] = $user["id"];
             $userObj["name"] = $user["name"];
-            array_push($advisors, $userObj);
+            array_push($judges, $userObj);
         }
     }
-    $returnobj["advisors"] = $advisors;
+    $returnobj["judges"] = $judges;
     echo json_encode($returnobj);
     http_response_code(200);
 }
