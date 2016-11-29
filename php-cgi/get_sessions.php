@@ -7,7 +7,6 @@
  */
 $sessions_file = file_get_contents('./data/sessions.json');
 $sessions = json_decode($sessions_file, true);
-$sessions = array();
 $session_id = "";
 if (isset($_GET['id'])) {
     $session_id = $_GET["id"];
@@ -26,12 +25,14 @@ if (isset($_GET['id'])) {
     }
     http_response_code(200);
 } else {
+    $returnarr = array();
     foreach($sessions as &$session) {
         $sessionObj["id"] = $session["id"];
-        $sessionObj["name"] = $session["department_id"];
-        array_push($sessions, $sessionObj);
+        $sessionObj["department"] = $session["department_id"];
+        $sessionObj["name"] = $session["department_id"] . " " . $session["department_substr"];
+        array_push($returnarr, $sessionObj);
     }
-    $returnobj["sessions"] = $sessions;
+    $returnobj["sessions"] = $returnarr;
     echo json_encode($returnobj);
     http_response_code(200);
 }

@@ -27,17 +27,51 @@ if (isset($_GET["id"])) {
     }
     http_response_code(200);
 } else if (isset($_GET["user_id"])) {
+    $users_file = file_get_contents('./data/users.json');
+    $users = json_decode($users_file, true);
     $user_id = $_GET["user_id"];
-    for($i = 0; $i < count($projects); $i++) {
-        $project = $projects[$i];
-        if (in_array($project["members"], $user_id)) {
-            $projectObj["name"] = $project["project"];
-            array_push($advisors, $projectObj);
+    foreach($users as &$user) {
+        if ($user_id == $user["id"]) {
+            $curr_user = $user;
+            break;
         }
-        $returnobj["projects"] = $advisors;
-        echo json_encode($returnobj);
-        http_response_code(200);
     }
+    $returnarr = array();
+    if ($curr_user["type"] == "advisor") {
+        foreach ($curr_user["projects"] as &$project_id) {
+            foreach($projects as &$project) {
+                if ($project_id == $project["id"]) {
+                    array_push($returnarr, $project);
+                    echo json_encode($returnobj);
+                    break;
+                }
+            }
+        }
+    } else if ($curr_user["type"] == "judge") {
+        $session_file = file_get_contents('./data/sessions.json');
+        $sessions = json_decode($session_file, true);
+        foreach ($sessions as &$session) {
+            if ($session["id"] == $curr_user["session"]) {
+                $curr_session = $session;
+                break;
+            }
+        }
+        foreach ($curr_session["projects"] as &$project_id) {
+            foreach($projects as &$project) {
+                if ($project_id == $project["id"]) {
+                    array_push($returnarr, $project);
+                    break;
+                }
+            }
+        }
+    } else if ($curr_user["type"] == "admin") {
+        foreach($projects as &$project) {
+            array_push($returnarr, $project);
+        }
+    }
+    $returnobj["projects"] = $returnarr;
+    echo json_encode($returnobj);
+    http_response_code(200);
 } else {
     foreach($projects as &$project) {
         $projectObj["name"] = $project["project"];

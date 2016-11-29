@@ -35,11 +35,9 @@
             { id: 'apples', name: 'Apples' },
             { id: 'pears', name: 'Pears' }
         ];
-        document.getElementById('vegetables').source = [
-            {name: 'Cabbage', scientificName: 'Brassica oleracea'},
-            {name: 'Carrot', scientificName: 'Daucus carota'},
-            {name: 'Potato', scientificName: 'Solanum tuberosum'}
-        ];
+        getProjects("0", function(object) {
+            document.getElementById('vegetables').source = object;
+        });
         document.querySelector('#vegetables').addEventListener('_optionSelected', function() {
             var teamInput = document.querySelector('#vegetables');
             var value = teamInput.value;

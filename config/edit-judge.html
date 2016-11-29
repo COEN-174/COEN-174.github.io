@@ -21,7 +21,7 @@
         <paper-chips items="[[chips]]" id="team-chip-container"></paper-chips>
     </template>
     <br/>
-    <paper-input-autocomplete id="vegetables" label="Change Session" search-property="name"></paper-input-autocomplete>
+    <paper-input-autocomplete id="sessions" label="Change Session" search-property="name"></paper-input-autocomplete>
     <br/>
     <div class="config_button_container">
         <paper-button raised class="form-button" onclick="submitForm()">Submit</paper-button>
@@ -34,13 +34,11 @@
         scope.chips = [
             { id: 'apples', name: 'Apples' }
         ];
-        document.getElementById('vegetables').source = [
-            {name: 'Cabbage', scientificName: 'Brassica oleracea'},
-            {name: 'Carrot', scientificName: 'Daucus carota'},
-            {name: 'Potato', scientificName: 'Solanum tuberosum'}
-        ];
-        document.querySelector('#vegetables').addEventListener('_optionSelected', function() {
-            var teamInput = document.querySelector('#vegetables');
+        getSessions("0", function(object) {
+            document.getElementById('sessions').source = object;
+        });
+        document.querySelector('#sessions').addEventListener('_optionSelected', function() {
+            var teamInput = document.querySelector('#sessions');
             var value = teamInput.value;
             var team_chip_container = document.querySelector('#team-chip-container');
             team_chip_container.removeLast();

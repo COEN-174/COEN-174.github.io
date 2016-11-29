@@ -72,3 +72,12 @@ function getSessions(auth_id, callback) {
         }
     });
 }
+
+function setSession(auth_id, session, callback) {
+    session.auth_id = auth_id;
+    _doPost("add_session.php", session, function(object) {
+        if (object.success) {
+            callback(object);
+        }
+    });
+}

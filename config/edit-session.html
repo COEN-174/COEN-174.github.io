@@ -16,9 +16,12 @@
     <paper-input-autocomplete id="vegetables" label="Projects" search-property="name"></paper-input-autocomplete>
     <br/>
     <div class="config_button_container">
-        <paper-button raised class="form-button" onclick="submitForm()">Submit</paper-button>
+        <paper-button raised class="form-button" onclick="submit_session()">Submit</paper-button>
         <paper-button raised class="form-button-secondary" onclick="deleteRequest()">Delete</paper-button>
     </div>
+    <paper-toast id="successToast">Session Updated</paper-toast>
+    <paper-toast id="failureToast">Session Update Failed</paper-toast>
+    <paper-toast id="incompleteToast">One or more fields is blank</paper-toast>
 </div>
 <script>
     function populate_session(callback) {
@@ -57,5 +60,27 @@
                 }
             });
         }
+    }
+    function submit_session() {
+        var department_id = document.querySelector("#name_input").value;
+        var department_substr = document.querySelector("#substr_input").value;
+        var scope = document.querySelector('#session-data-entry');
+        var reduced_projects = scope.chips.map(function(obj){return obj.id});
+
+        if (department_id == null || department_id.length == 0 || department_substr == null || department_substr.length == 0) { incompleteToast.open(); return; }
+
+        var newSessionObj = {
+            "id": _selectedId ? _selectedId : "",
+            "department_id": department_id.name,
+            "department_substr": department_substr,
+            "projects": reduced_projects
+        }
+        setSession("0",newSessionObj, function(object) {
+            if (object.success) {
+                successToast.open();
+            } else {
+                failureToast.open();
+            }
+        })
     }
 </script>

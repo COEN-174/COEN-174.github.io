@@ -13,9 +13,11 @@ function _doGet(path, data, callback) {
         }
         url += str.join("&");
     }
+    console.log(url);
     request.open("GET", url, true);
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function() {
+        console.log(request.responseText);
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 var data = request.responseText ? JSON.parse(request.responseText) : null;
@@ -31,6 +33,7 @@ function _doGet(path, data, callback) {
 function _doPost(path, data, callback) {
     var request = new XMLHttpRequest();
     var params = JSON.stringify(data);
+    console.log(data);
     request.open("POST", _apiBaseURL + path, true);
     request.setRequestHeader("Content-type", "application/json");
     request.onreadystatechange = function() {
