@@ -11,25 +11,24 @@
             <div id="team_container"></div>
         </paper-item>
         <h5 class="subheader">Design Project</h5>
-        <advisor-category-fivepoint score_amount = "5" category_title="Technical Accuracy" category_parity="category_even"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Creativity and Innovation" category_parity="category_odd"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Supporting Analytical Work" category_parity="category_even"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Methodical Design Process Demonstrated" category_parity="category_odd"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Addresses Project Complexity Appropriately" category_parity="category_even"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Expectation of Completion (by term's end)" category_parity="category_odd"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Design & Analysis of Tests" category_parity="category_even"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Quality of Response during Q&A" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[0] category_title="Technical Accuracy" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[1] category_title="Creativity and Innovation" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[2] category_title="Supporting Analytical Work" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[3] category_title="Methodical Design Process Demonstrated" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[4] category_title="Addresses Project Complexity Appropriately" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[5] category_title="Expectation of Completion (by term's end)" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[6] category_title="Design & Analysis of Tests" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[7] category_title="Quality of Response during Q&A" category_parity="category_odd"></advisor-category-fivepoint>
 
         <h5 class="subheader">Presentation</h5>
-        <advisor-category-fivepoint score_amount = "5" category_title="Organization" category_parity="category_even"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Use of Alloted Time" category_parity="category_odd"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Visual Aids" category_parity="category_even"></advisor-category-fivepoint>
-        <advisor-category-fivepoint score_amount = "5" category_title="Confidence and Poise" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[8] category_title="Organization" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[9] category_title="Use of Alloted Time" category_parity="category_odd"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[10] category_title="Visual Aids" category_parity="category_even"></advisor-category-fivepoint>
+        <advisor-category-fivepoint score_amount = catscore[11] category_title="Confidence and Poise" category_parity="category_odd"></advisor-category-fivepoint>
 
-        <h5 id="center">Grand Total (Sum of Design Project and Presentation Totals):</h5>
+        <!--<h5 id="center">Grand Total (Sum of Design Project and Presentation Totals):</h5>
         <div id="tally">
-            <!-- mock div that will display score total once calculated -->
-        </div><br>
+        </div><br>-->
 
         <div class="form-actionable-container">
             <p id="center"><b>Select any of the following considerations that were addressed by the presentation:</b></p>
@@ -54,3 +53,16 @@
         </div>
     </form>
 </div>
+<script>
+    
+    function grabValues() {
+        var catscore = {};
+        var categories = document.getElementsByClassName("category_label noselect style-scope judging-category-fivepoint");
+        var scores = document.getElementsByClassName("category_radio_button noselect style-scope judging-category-fivepoint x-scope paper-radio-button-0 iron-selected");
+        for (var i=0; i < categories.length; i++) {
+            //assign each category its score taken from form
+            catscore[i] = scores[i];
+        }
+    }
+    
+</script>
