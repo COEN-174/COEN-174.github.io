@@ -7,28 +7,10 @@ include 'check_auth.php';
 
 $request = file_get_contents("php://input");
 $request = json_decode($request, true);
-$allow_get = False;
-$check_keys = ["username","rest_auth"];
-$request_keys = array_keys($request);
-/*
-if (count($check_keys) == count($request_keys)) {
-    echo "Passed key count check\n\n";
-    for ($i = 0; $i < count($request_keys); $i++) {
-        if (!(isset($request["$check_keys[$i]"]))) {
-            invalid_form("Unknown key");
-        }
-    }
-    echo var_dump($request);
-    $allow_get = check_auth($request["username"], $request["rest_auth"]);
 
-    if ($allow_get == False) {
-        invalid_form("Invalid credentials");
-    }
-
-    echo "Passed check_auth\n\n";
-*/
     $shanes_report = [];
     $judges_path = "scores/json/judges/*";
+    $score = 0;
 
     foreach (glob($judges_path) as $scores_path) {
         $scores = file_get_contents($scores_path);
@@ -50,6 +32,7 @@ if (count($check_keys) == count($request_keys)) {
                 $shanes_report["$project_name"]["members"] = $score_array["members"];
                 $shanes_report["$project_name"]["advisors"] = $score_array["advisors"];
                 $shanes_report["$project_name"]["scores"]["$judges_name"] = $temp;
+
             }
             else {
                 array_push($shanes_report["$project_name"]["scores"], $judges_name);
@@ -57,40 +40,112 @@ if (count($check_keys) == count($request_keys)) {
             }
         }
     }
+    $temp_project = [];
+    $score_totals = [""];
+    $num_judges = 0;
+    $judges = [""];
 
-$shane_csv = $shanes_report;
-$projects_keys = array_keys($shane_csv);
-$project_scores = [];
+    $fp = fopen("shanes_report.csv","w");
 
-foreach($shane_csv as $project) {
-    foreach($project["scores"] as $judge) {
-        array_push($project_scores, $judge["final_score"]);
+    foreach ($shanes_report as $project_name => $values) {
+    $judges = ["Judges"];
+    $score_totals = ["Totals"];
+    unset($cat1);
+    unset($cat2);
+    unset($cat3);
+    unset($cat4);
+    unset($cat5);
+    unset($cat6);
+    unset($cat7);
+    unset($cat8);
+    unset($cat9);
+    unset($cat10);
+    unset($cat11);
+    unset($cat12);
+    $cat1 = ["Technical Accuracy"];
+    $cat2 = ["Creativity and Innovation"];
+    $cat3 = ["Supporting Analytical Work"];
+    $cat4 = ["Methodical Design Process Demonstrated"];
+    $cat5 = ["Addresses Project Complexity Appropriately"];
+    $cat6 = ["Expectation of Completion (by term's end)"];
+    $cat7 = ["Design & Analysis of Tests"];
+    $cat8 = ["Quality of Response during Q&A"];
+    $cat9 = ["Organization"];
+    $cat10 = ["Use of Alloted Time"];
+    $cat11 = ["Visual Aids"];
+    $cat12 = ["Confidence and Poise"];
+        array_push($temp_project, $project_name);
+        fputcsv($fp, $temp_project);
+        $temp_project = [];
+        fputcsv($fp, [""]);
+        foreach ($values["scores"] as $judge => $judges_scores) {
+            if(!array_key_exists($judge,$judges)) {
+                array_push($judges, $judge);
+            }
+            foreach ($judges_scores["grades"] as $category => $grade) {
+                //echo $category ."=" . $grade ."\n";
+                //Make rows of scores
+                switch ($category) {
+                    case $cat1[0]:
+                        array_push($cat1, $grade);
+                    case $cat2[0]:
+                        array_push($cat2, $grade);
+                    case $cat3[0]:
+                        array_push($cat3, $grade);
+                    case $cat4[0]:
+                        array_push($cat4, $grade);
+                    case $cat5[0]:
+                        array_push($cat5, $grade);
+                    case $cat6[0]:
+                        array_push($cat6, $grade);
+                    case $cat7[0]:
+                        array_push($cat7, $grade);
+                    case $cat8[0]:
+                        array_push($cat8, $grade);
+                    case $cat9[0]:
+                        array_push($cat9, $grade);
+                    case $cat10[0]:
+                        array_push($cat10, $grade);
+                    case $cat11[0]:
+                        array_push($cat11, $grade);
+                    case $cat12[0]:
+                        array_push($cat12, $grade);
+                }
+            }
+        }
+        fputcsv($fp,$judges);
+        fputcsv($fp,$cat1);
+        fputcsv($fp,$cat2);
+        fputcsv($fp,$cat3);
+        fputcsv($fp,$cat4);
+        fputcsv($fp,$cat5);
+        fputcsv($fp,$cat6);
+        fputcsv($fp,$cat7);
+        fputcsv($fp,$cat8);
+        fputcsv($fp,$cat9);
+        fputcsv($fp,$cat10);
+        fputcsv($fp,$cat11);
+        fputcsv($fp,$cat12);
+        for ($i = 1; $i <= count($judges); $i++) {
+            $score_totals[$i] += $cat1[$i];
+            $score_totals[$i] += $cat2[$i];
+            $score_totals[$i] += $cat3[$i];
+            $score_totals[$i] += $cat4[$i];
+            $score_totals[$i] += $cat5[$i];
+            $score_totals[$i] += $cat6[$i];
+            $score_totals[$i] += $cat7[$i];
+            $score_totals[$i] += $cat8[$i];
+            $score_totals[$i] += $cat9[$i];
+            $score_totals[$i] += $cat10[$i];
+            $score_totals[$i] += $cat11[$i];
+            $score_totals[$i] += $cat12[$i];
+        }
+        fputcsv($fp,$score_totals);
+        fputcsv($fp,[""]);
     }
-}
+    fclose($fp);
 
-$csv = array($project_keys, $project_scores);
-$fp = fopen("shane.csv","w+");
-foreach($csv as $line) {
-    fputcsv($fp,$line);
-}
-fclose($fp);
-$shanes_report["download_link"] = "http://students.engr.scu.edu/~pmiller/website/shane.csv";
-
+	$shanes_report["download_link"] = "shanes_report.csv";
     $return_data = json_encode($shanes_report);
     echo $return_data;
-    /*
-}
-else {
-    invalid_form("Failed key length check");
-}
-*/
-
-function invalid_form($msg) {
-    echo "Invalid form ";
-    if (isset($msg)) {
-        echo ": message:" . $msg;
-    }
-    http_response_code(403);
-    exit();
-}
 ?>

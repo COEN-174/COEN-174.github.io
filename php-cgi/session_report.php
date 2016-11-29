@@ -150,6 +150,16 @@ $request = json_decode($request, true);
     }
     fclose($fp);
 
+
+/*
+    $project_scores = [];
+    $fp = fopen("session_report.csv","w+");
+    $csv = array(array('patrick','miller'),array('is','a','boss'));
+    foreach($csv as $line) {
+        fputcsv($fp,$line);
+    }
+    fclose($fp);
+    */
     $session_report["download_link"] = "session_report.csv";
     $return_data = json_encode($session_report);
     echo $return_data;
