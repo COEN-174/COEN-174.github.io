@@ -5,16 +5,16 @@
 $data = file_get_contents("php://input");
 $data = json_decode($data, true);
 
-$check_keys = ["session_id","session_substr","projects"];
-foreach ($data as $session) {
-    foreach ($check_keys as $key) {
-        if (!array_key_exists($key, $session)) {
-            echo "Invalid fields\n";
-            http_response_code(403);
-            exit;
-        }
-    }
-}
+//$check_keys = ["session_id","session_substr","projects"];
+//foreach ($data as $session) {
+//    foreach ($check_keys as $key) {
+//        if (!array_key_exists($key, $session)) {
+//            echo "Invalid fields\n";
+//            http_response_code(403);
+//            exit;
+//        }
+//    }
+//}
 
 if (!file_exists("./data/sessions.json")) {
     $oldmask = umask(0);
@@ -26,7 +26,7 @@ if (!file_exists("./data/sessions.json")) {
 $new_sessions = $data; //array of sessions
 
 for ($i = 0; $i < count($new_sessions); $i++) {
-    $new_sessions["id"] = bin2hex(random_bytes(6));
+    $new_sessions["id"] = hash('ripemd160', $data["department_id"]);
 }
 
 $sessions_list = file_get_contents("./data/sessions.json");

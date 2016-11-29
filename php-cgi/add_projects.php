@@ -1,4 +1,5 @@
 <?php
+echo $_REQUEST;
 $data = file_get_contents("php://input");
 $data = json_decode($data, true);
 
@@ -25,7 +26,7 @@ if (!file_exists("./data/projects.json")) {
 //Add UIDs to new projects
 $new_projects = $data;
 for ($i = 0; $i < count($new_projects); $i++) {
-    $new_projects[$i]["id"] = bin2hex(random_bytes(6));
+    $new_projects[$i]["id"] = hash('ripemd160', $data["name"]);
 }
 //Get list of projects
 $project_list = file_get_contents("./data/projects.json");

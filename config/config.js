@@ -9,6 +9,15 @@ function getAdvisor(auth_id, identifier, callback) {
     });
 }
 
+function setAdvisor(auth_id, advisor, callback) {
+    advisor.auth_id = auth_id;
+    _doPost("add_advisor.php", advisor, function(object) {
+        if (object.success) {
+            callback(object);
+        }
+    });
+}
+
 function getAdvisors(auth_id, callback) {
     _doGet("get_advisors.php", {"auth_id": auth_id}, function(object) {
         if (object.success && object.data) {
@@ -21,6 +30,15 @@ function getAdmin(auth_id, identifier, callback) {
     _doGet("get_admins.php", {"auth_id": auth_id, "id": identifier}, function(object) {
         if (object.success && object.data) {
             callback(object.data.admin);
+        }
+    });
+}
+
+function setAdmin(auth_id, admin, callback) {
+    admin.auth_id = auth_id;
+    _doPost("add_admin.php", admin, function(object) {
+        if (object.success) {
+            callback(object);
         }
     });
 }
@@ -41,6 +59,15 @@ function getJudge(auth_id, identifier, callback) {
     });
 }
 
+function setJudge(auth_id, judge, callback) {
+    judge.auth_id = auth_id;
+    _doPost("add_judge.php", judge, function(object) {
+        if (object.success) {
+            callback(object);
+        }
+    });
+}
+
 function getJudges(auth_id, callback) {
     _doGet("get_judges.php", {"auth_id": auth_id}, function(object) {
         if (object.success && object.data) {
@@ -53,6 +80,15 @@ function getProject(auth_id, identifier, callback) {
     _doGet("get_projects.php", {"auth_id": auth_id, "id": identifier}, function(object) {
         if (object.success && object.data) {
             callback(object.data.project);
+        }
+    });
+}
+
+function setProject(auth_id, project, callback) {
+    project.auth_id = auth_id;
+    _doPost("add_project.php", project, function(object) {
+        if (object.success) {
+            callback(object);
         }
     });
 }
