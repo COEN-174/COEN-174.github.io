@@ -4,7 +4,7 @@
 var _apiBaseURL = "./../php-cgi/";
 
 function getAdvisor(auth_id, identifier, callback) {
-    _doGet("get_advisors.php", {"auth_id": auth_id, "id": identifier}, function(object) {
+    _doGetConfig("get_advisors.php", {"auth_id": auth_id, "id": identifier}, function(object) {
         if (object.success && object.data) {
             callback(object.data.advisor);
         }
@@ -12,7 +12,7 @@ function getAdvisor(auth_id, identifier, callback) {
 }
 
 function getAdvisors(auth_id, callback) {
-    _doGet("get_advisors.php", {"auth_id": auth_id}, function(object) {
+    _doGetConfig("get_advisors.php", {"auth_id": auth_id}, function(object) {
         if (object.success && object.data) {
             callback(object.data.advisors);
         }
@@ -20,7 +20,7 @@ function getAdvisors(auth_id, callback) {
 }
 
 function getJudge(auth_id, identifier, callback) {
-    _doGet("get_judges.php", {"auth_id": auth_id, "id": identifier}, function(object) {
+    _doGetConfig("get_judges.php", {"auth_id": auth_id, "id": identifier}, function(object) {
         if (object.success && object.data) {
             callback(object.data.judge);
         }
@@ -28,7 +28,7 @@ function getJudge(auth_id, identifier, callback) {
 }
 
 function getJudges(auth_id, callback) {
-    _doGet("get_judges.php", {"auth_id": auth_id}, function(object) {
+    _doGetConfig("get_judges.php", {"auth_id": auth_id}, function(object) {
         if (object.success && object.data) {
             callback(object.data.judges);
         }
@@ -36,7 +36,7 @@ function getJudges(auth_id, callback) {
 }
 
 function getProject(auth_id, identifier, callback) {
-    _doGet("get_projects.php", {"auth_id": auth_id, "id": identifier}, function(object) {
+    _doGetConfig("get_projects.php", {"auth_id": auth_id, "id": identifier}, function(object) {
         if (object.success && object.data) {
             callback(object.data.project);
         }
@@ -44,7 +44,7 @@ function getProject(auth_id, identifier, callback) {
 }
 
 function getProjects(auth_id, callback) {
-    _doGet("get_projects.php", {"auth_id": auth_id}, function(object) {
+    _doGetConfig("get_projects.php", {"auth_id": auth_id}, function(object) {
         if (object.success && object.data) {
             callback(object.data.projects);
         }
@@ -52,14 +52,14 @@ function getProjects(auth_id, callback) {
 }
 
 function getSessions(auth_id, callback) {
-    _doGet("get_sessions.php", {"auth_id": auth_id}, function(object) {
+    _doGetConfig("get_sessions.php", {"auth_id": auth_id}, function(object) {
         if (object.success && object.data) {
             callback(object.data.sessions);
         }
     });
 }
 
-function _doGet(path, data, callback) {
+function _doGetConfig(path, data, callback) {
     var request = new XMLHttpRequest();
     var url = _apiBaseURL + path;
     if (data && typeof data === 'object') {

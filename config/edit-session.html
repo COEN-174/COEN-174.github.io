@@ -1,36 +1,36 @@
 <meta charset="UTF-8">
 <div id="judge_form" style="padding: 20px;">
-    <style>
-        #bar_hero_image {
-            width: 100px;
-            height: 100px;
-            display: block;
-            margin: auto;
-            border-radius: 10px;
-        }
-    </style>
-    <img sizing="contain" id="bar_hero_image" src="./../img/generic_user.jpeg">
-    <br/>
-    <paper-input id="name_input" class="flexchild" label="Name"></paper-input>
-    <br/>
-    <paper-input id="login_input" class="flexchild" label="Login Key"></paper-input>
     <br/>
     <br/>
-    <label style="font-family:'Roboto'; margin-right:10px">Session</label><br/><br/>
+    <br/>
+    <paper-input-autocomplete id="name_input" class="flexchild" label="Department"></paper-input-autocomplete>
+    <br/>
+    <paper-input id="substr_input" class="flexchild" label="Suffix or Number" type="number"></paper-input>
+    <br/>
+    <br/>
+    <label style="font-family:'Roboto'; margin-right:10px">Projects</label><br/><br/>
     <template is="dom-bind" id="judge-data-entry">
         <paper-chips items="[[chips]]" id="team-chip-container"></paper-chips>
     </template>
     <br/>
-    <paper-input-autocomplete id="vegetables" label="Change Session" search-property="name"></paper-input-autocomplete>
+    <paper-input-autocomplete id="vegetables" label="Projects" search-property="name"></paper-input-autocomplete>
     <br/>
     <paper-button raised class="form-button" onclick="submitForm()">Submit</paper-button>
 </div>
 <script>
-    function populate_judge(callback) {
+    function populate_project(callback) {
         var scope = document.querySelector('#judge-data-entry');
         scope.chips = [
             { id: 'apples', name: 'Apples' }
         ];
+        document.getElementById('name_input').source = [
+            {name: 'Bioengineering'},
+            {name: 'Civil Engineering'},
+            {name: 'Computer Engineering'},
+            {name: 'Electrical Engineering'},
+            {name: 'Mechanical Engineering'},
+            {name: 'Interdisciplinary'}
+        ]
         document.getElementById('vegetables').source = [
             {name: 'Cabbage', scientificName: 'Brassica oleracea'},
             {name: 'Carrot', scientificName: 'Daucus carota'},
@@ -45,7 +45,7 @@
             teamInput.clear();
         });
 
-        getJudge("0", _selectedId, function(object) {
+        getProject("0", _selectedId, function(object) {
             console.log(object);
             if (object) {
                 document.querySelector("#name_input").placeholder = object.name;
