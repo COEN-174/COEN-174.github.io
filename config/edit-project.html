@@ -6,47 +6,38 @@
     <br/>
     <paper-input-autocomplete id="advisor_input" class="flexchild" search-property="name" label="Advisor"></paper-input-autocomplete>
     <br/>
-    <paper-input-autocomplete id="project_input" class="flexchild" search-property="name" label="project"></paper-input-autocomplete>
-    <br/>
     <br/>
     <label style="font-family:'Roboto'; margin-right:10px">Members</label><br/><br/>
     <template is="dom-bind" id="project-data-entry">
         <paper-chips items="[[chips]]" id="team-chip-container"></paper-chips>
     </template>
     <br/>
-    <paper-input-autocomplete id="vegetables" label="Projects" search-property="name"></paper-input-autocomplete>
+    <div style="display: flex">
+        <paper-input id="vegetables" label="Student" style="flex: 1"></paper-input>
+        <paper-button raised style="height: 40px; bottom: -10px;" onclick="addToProject()">Add</paper-button>
+    </div>
     <br/>
     <div class="config_button_container">
-        <paper-button raised class="form-button" onclick="submitForm()">Submit</paper-button>
+        <paper-button raised class="form-button" onclick="submit_project()">Submit</paper-button>
         <paper-button raised class="form-button-secondary" onclick="deleteRequest()">Delete</paper-button>
     </div>
+    <paper-toast id="successToast">Project Updated</paper-toast>
+    <paper-toast id="failureToast">Project Update Failed</paper-toast>
+    <paper-toast id="incompleteToast">One or more fields is blank</paper-toast>
 </div>
 <script>
+    function addToProject() {
+        var teamInput = document.querySelector('#vegetables');
+        var value = teamInput.value;
+        var team_chip_container = document.querySelector('#team-chip-container');
+        team_chip_container.add({name:value});
+        teamInput.updateValueAndPreserveCaret("");
+    }
     function populate_project(callback) {
         var scope = document.querySelector('#project-data-entry');
-        scope.chips = [
-            { id: 'apples', name: 'Apples' }
-        ];
-        document.getElementById('name_input').source = [
-            {name: 'Bioengineering'},
-            {name: 'Civil Engineering'},
-            {name: 'Computer Engineering'},
-            {name: 'Electrical Engineering'},
-            {name: 'Mechanical Engineering'},
-            {name: 'Interdisciplinary'}
-        ]
-        document.getElementById('vegetables').source = [
-            {name: 'Cabbage', scientificName: 'Brassica oleracea'},
-            {name: 'Carrot', scientificName: 'Daucus carota'},
-            {name: 'Potato', scientificName: 'Solanum tuberosum'}
-        ];
-        document.querySelector('#vegetables').addEventListener('_optionSelected', function() {
-            var teamInput = document.querySelector('#vegetables');
-            var value = teamInput.value;
-            var team_chip_container = document.querySelector('#team-chip-container');
-            team_chip_container.removeLast();
-            team_chip_container.add({name:value.name});
-            teamInput.clear();
+        scope.chips = [];
+        getAdvisors("0", function(object) {
+            document.getElementById("advisor_input").source = object;
         });
         if (_selectedId) {
             getProject("0", _selectedId, function(object) {
@@ -54,9 +45,32 @@
                 if (object) {
                     document.querySelector("#name_input").placeholder = object.name;
                     document.querySelector("#login_input").placeholder = object.username;
+                    scope.chips = object.members.map(function(obj){return {name: obj}});
                     callback();
                 }
             });
         }
+    }
+    function submit_project() {
+        var scope = document.querySelector('#project-data-entry');
+        var name = document.getElementById("name_input").value;
+        var advisor = document.getElementById("advisor_input").value;
+        var members = scope.chips.map(function(obj){return obj.id});
+
+        if (name == null || name.length == 0) {incompleteToast.open(); return;}
+
+        var newProjectObj = {
+            "id" : _selectedId ? _selectedId : "",
+            "project" : name,
+            "advisor" : advisor.id,
+            "members" : members,
+        }
+        setProject("0", newProjectObj, function(object){
+            if (object.success) {
+                successToast.open();
+            } else {
+                failureToast.open();
+            }
+        });
     }
 </script>
