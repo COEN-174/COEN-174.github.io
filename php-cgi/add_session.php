@@ -5,7 +5,7 @@
 $data = file_get_contents("php://input");
 $data = json_decode($data, true);
 
-$check_keys = ["department_id","department_substr","projects"];
+$check_keys = ["session_id","session_substr","projects"];
 foreach ($data as $session) {
     foreach ($check_keys as $key) {
         if (!array_key_exists($key, $session)) {

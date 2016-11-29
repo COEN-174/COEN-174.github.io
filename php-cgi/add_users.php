@@ -8,7 +8,7 @@
 $data = file_get_contents("php://input");
 //echo var_dump($data);
 $data = json_decode($data, true);
-$check_keys = ["username","name","acl","session"];
+$check_keys = ["username","name","acl","session_id","session_substr"];
 foreach ($data as $new_user) {
     for ($i = 0; $i < count($check_keys); $i++) {
         if (!isset($new_user["$check_keys[$i]"])) {

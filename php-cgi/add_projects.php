@@ -2,7 +2,7 @@
 $data = file_get_contents("php://input");
 $data = json_decode($data, true);
 
-$check_keys = ["advisors","session","project","members"];
+$check_keys = ["advisors","session_id","session_substr","project","members"];
 for ($i = 0; $i < count($data); $i++) {
 foreach ($check_keys as $key) {
     if (!isset($data[$i]["$key"])) {

@@ -39,26 +39,6 @@ foreach ($data as $id_to_delete) {
         }
     }
 }
-/*
-foreach ($data as $judge) {
-    recursive_unset($new_list, $judge);
-}
-function recursive_unset(&$arr, $judge_to_delete) {
-    if(is_array($arr)) {
-        foreach($arr as $key => &$arrVal) {
-            if(is_array($arrVal)) {
-                recursive_unset($arrVal, $judge_to_delete);
-            }
-            else {
-                if($arrVal == $judge_to_delete) {
-                    unset($arr[$key]);
-                    echo "Removed someone";
-                }
-            }
-        }
-    }
-}
-*/
 //echo var_dump($new_list) . "\n";
 $user_list = json_encode($user_list);
 if(file_put_contents("./data/users.json", $user_list)) {
