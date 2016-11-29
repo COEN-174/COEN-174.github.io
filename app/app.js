@@ -199,11 +199,10 @@ function login(username, password){
 
 // Will create JSON project objects to be displayed in left column
 // depending on what session the judge is judging
-function populate_column(session, rest_auth){
+function populate_column(session){
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/populate_column.php";
     var payload = {};
     payload["session"] = session;
-    payload["rest_auth"] = rest_auth;
 
     payload = JSON.stringify(payload);
 
@@ -225,14 +224,12 @@ function populate_column(session, rest_auth){
 }
 
 // Returns array of all projects and a download link to csv
-function shanesReport(username, rest_auth){
+function shanesReport(username){
     if (username == "shane") {
         var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/shanes_report.php";
         //var username = document.getElementById("username")["innerHTML"];
-        //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
         var payload = {};
         payload["username"] = username;
-        payload["rest_auth"] = rest_auth;
         payload = JSON.stringify(payload);
 
         var http = new XMLHttpRequest();
@@ -258,15 +255,13 @@ function shanesReport(username, rest_auth){
 
 
 //Expects advisor = "Some Advisor"
-function advisorReport(name, username, rest_auth){
+function advisorReport(name, username){
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/advisor_report.php";
     //var name = document.getElementById("name")["innerHTML"];
     //var username = document.getElementById("username")["innerHTML"];
-    //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
     var payload = {};
     payload["name"] = name;
     payload["username"] = username;
-    payload["rest_auth"] = rest_auth;
     payload = JSON.stringify(payload);
 
     var http = new XMLHttpRequest();
@@ -288,17 +283,15 @@ function advisorReport(name, username, rest_auth){
 
 // session should be of form ["Session","Number"]
 //      e.g. ["Computer Engineering","1"]
-function sessionReport(session, username, rest_auth) {
+function sessionReport(session_id, session_substr) {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/session_report.php";
     //session[0] = document.getElementById("session_name")["innerHTML"];
     //session[1] = document.getElementById("session_number")["innerHTML"];
     //var username = document.getElementById("username")["innerHTML"];
-    //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
 
     var payload = {};
-    payload["session"] = session;
-    payload["username"] = username;
-    payload["rest_auth"] = rest_auth;
+    payload["session_id"] = session_id;
+    payload["session_substr"] = session_substr;
     payload = JSON.stringify(payload);
 
 
@@ -319,7 +312,7 @@ function sessionReport(session, username, rest_auth) {
     http.send(payload);
 }
 
-function submit(username, rest_auth) {
+function submit(username) {
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/submit.php";
 
     //Set judge
@@ -330,9 +323,6 @@ function submit(username, rest_auth) {
     for (var i = 0; i < advisor_container.length; i++) {
         advisors.push(advisor_container[i]["innerHTML"])
     }
-
-    //Set Judge auth
-    //var rest_auth = document.getElementById("rest_auth")["innerHTML"]; // This comes from logging in
 
     //Generate array of team members
     var team_container = document.getElementById("team_container");
@@ -367,7 +357,6 @@ function submit(username, rest_auth) {
     //Build Payload
     var payload = {};
     payload["username"] = username;
-    payload["rest_auth"] = rest_auth; //judge_auth => ""
     payload["advisors"] = advisors; //advisors => []
     payload["project"] = project; //project => ""
     payload["members"] = team; //members => []

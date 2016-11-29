@@ -1,2 +1,2 @@
 AddType application/php-cgi .php
-Action application/php-cgi /~pmiller/cgi-bin/php-cgi.cgi
+Action application/php-cgi /~pmiller/website/cgi-bin/php-cgi.cgi

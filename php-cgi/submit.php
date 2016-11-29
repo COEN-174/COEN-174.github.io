@@ -5,7 +5,6 @@ include 'check_auth.php';
     {
         "username":"datkinson",
         "name":"Darren Atkinson",
-        "rest_auth":"12308df",
         "advisors":["Einstein","Betty Young"],
         "session":["Computer Engineering":"1"];
         "project":"Ballooning Across North Pole",
@@ -22,26 +21,10 @@ $submission = file_get_contents("php://input");
 $submission = json_decode($submission, true);
 // Checking for legitimate data
 $allow_post = False;
-$check_keys = ["name","username","rest_auth","advisors","session","project","members","grades","considerations","comments"];
+$check_keys = ["name","username","advisors","session","project","members","grades","considerations","comments"];
 
 // Checking for legitimate keys
 $submission_keys = array_keys($submission);
-// Initial size comparison
-/*
-if (count($check_keys) == count($submission_keys)) {
-    for ($i = 0; $i < count($submission_keys); $i++) {
-        if (!(isset($submission["$check_keys[$i]"]))) {
-            invalid_form("Unknown key");
-        }
-    }
-
-    // Check if user is auth'd to post
-    $allow_post = check_auth($submission["username"], $submission["rest_auth"]);
-
-    if ($allow_post == False) {
-        invalid_form("Auth does not match");
-    }
- */   
     // Set judges file structure scores/json/judges/judgeid
     $judges_path =  "scores/json/judges/";
     $judges_file = $judges_path . $submission["username"];
@@ -61,7 +44,6 @@ if (count($check_keys) == count($submission_keys)) {
     $submissions_to_json = json_decode($submissions_to_json, true);
     echo var_dump($submissions_to_json);
     $score = $submission;
-    unset($score["rest_auth"]);
     unset($score["username"]);
     array_push($submissions_to_json, $score);
     echo var_dump($submissions_to_json);
