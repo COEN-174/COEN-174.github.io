@@ -1,44 +1,10 @@
-function login(username, password){
-    var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/login.php";
-    var payload = {};
-    payload["username"] = username;
-    payload["password"] = password;
-    
-    payload = JSON.stringify(payload);
-
-    var http = new XMLHttpRequest();
-    http.open("POST", API_URL, true);
-    http.setRequestHeader("Content-Type", "application/json");
-
-    http.onreadystatechange = function() {
-        if (http.readyState == 4 && http.status == 200) {
-            console.log("Success! %s", http.responseText);
-            var user_creds = http.responseText;
-            // Will be a user object with password unset
-            /*
-                {
-                  "username":"datkinson",
-                  "name":"Darren Atkinson",
-                  "type":["judge"],
-                  "session":["Computer Engineering","1"]
-                }
-            */
-            return user_creds;
-        }
-        else if (http.readyState == 4 && http.status == 403) {
-            console.log("Could not log in");
-        }
-    }
-    http.send(payload);
-}
-
 // Will create JSON project objects to be displayed in left column
 // depending on what session the judge is judging
-function populate_column(session, rest_auth){
+function populate_column(session_id, session_substr){
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/populate_column.php";
     var payload = {};
-    payload["session"] = session;
-    payload["rest_auth"] = rest_auth;
+    payload["session_id"] = session_id;
+    payload["session_substr"] = session_substr;
     
     payload = JSON.stringify(payload);
 
@@ -60,34 +26,26 @@ function populate_column(session, rest_auth){
 }
 
 // Returns array of all projects and a download link to csv
-function shanesReport(username, rest_auth){
-    if (username == "shane") {
+function shanesReport(){
         var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/shanes_report.php";
-        //var username = document.getElementById("username")["innerHTML"];
-        //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
-        var payload = {};
-        payload["username"] = username;
-        payload["rest_auth"] = rest_auth;
-        payload = JSON.stringify(payload);
 
         var http = new XMLHttpRequest();
-        http.open("POST", API_URL, true);
+        http.open("GET", API_URL, true);
         http.setRequestHeader("Content-Type", "application/json");
 
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
                 console.log("Success! %s", http.responseText);
-                var return_data = http.responseText;
+                var return_data = JSON.parse(http.responseText);
+                var download = return_data['download_link'];
+                window.alert(download);
                 return return_data;
             }
             else if (http.readyState == 4 && http.status == 403) {
                 console.log("Could not get report %s", http.responseText);
             }
         }
-        http.send(payload);
-    }
-    else {
-        console.log("You're not shane");
+        http.send();
     }
 }
 
@@ -95,10 +53,6 @@ function shanesReport(username, rest_auth){
 //Expects advisor = "Some Advisor"
 function advisorReport(){
     var API_URL = "http://students.engr.scu.edu/~pmiller/php-cgi/advisor_report.php";
-    //var name = document.getElementById("name")["innerHTML"];
-    //var username = document.getElementById("username")["innerHTML"];
-    //var rest_auth = document.getElementById("rest_auth")["innerHTML"];
-    var payload = {};
     payload["name"] = "Ahmed Amer";
     payload["username"] = "aamer";
     payload["rest_auth"] = rest_auth;
