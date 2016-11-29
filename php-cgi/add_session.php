@@ -26,15 +26,25 @@ if (!file_exists("./data/sessions.json")) {
 $new_sessions = $data; //array of sessions
 
 for ($i = 0; $i < count($new_sessions); $i++) {
-    $new_sessions["id"] = bin2hex(random_bytes(6));
+    if(!isset($new_sessions["id"])) {
+        $new_sessions["id"] = bin2hex(random_bytes(6));
+    }
 }
 
 $sessions_list = file_get_contents("./data/sessions.json");
 $sessions_list = json_decode($sessions_list, true);
 
+//update projects
+$project_list = file_get_contents("./data/projects.json");
+$project_list = json_decode($project_list, true);
+
+for ($i = 0; $i < count($project_list); $i++) {
+    if ($project_list[$i]["id"]
+}
+
 array_push($sessions_list, $new_sessions);
 
 file_put_contents("./data/sessions.json", json_encode($sessions_list));
 echo json_encode($sessions_list);
-
+http_response_code(200);
 ?>

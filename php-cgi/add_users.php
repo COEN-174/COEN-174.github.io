@@ -38,7 +38,9 @@ if (!file_exists("./data/users.json")) {
 $new_users = $data; // Array of users
 //Give each user a UID
 for ($i = 0; $i < count($new_users); $i++) {
-    $new_users[$i]["id"] = bin2hex(random_bytes(6));
+    if(!isset($new_users[$i]["id"])) {
+        $new_users[$i]["id"] = bin2hex(random_bytes(6));
+    }
 }
 //  Judges are stored in lists keyed by session
 $user_list = file_get_contents("./data/users.json");
@@ -49,5 +51,5 @@ array_push($user_list, $new_users);
 
 file_put_contents("./data/users.json", json_encode($user_list));
 echo json_encode($user_list);
-
+http_response_code(200);
 ?>

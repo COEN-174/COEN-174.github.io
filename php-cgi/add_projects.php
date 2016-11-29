@@ -24,8 +24,12 @@ if (!file_exists("./data/projects.json")) {
 }
 //Add UIDs to new projects
 $new_projects = $data;
+$check_ids = []; //Used to update sessions
 for ($i = 0; $i < count($new_projects); $i++) {
-    $new_projects[$i]["id"] = bin2hex(random_bytes(6));
+    if(!isset($new_projects[$i]["id"])) {
+        $new_projects[$i]["id"] = bin2hex(random_bytes(6));
+        array_push($check_ids, $new_projects[$i]["id"]);
+    }
 }
 //Get list of projects
 $project_list = file_get_contents("./data/projects.json");
@@ -33,8 +37,22 @@ $project_list = json_decode($project_list, true);
 
 array_push($project_list, $new_projects);
 
+//Update sessions.json aligns with new projects
+$session_list = file_get_contents("./data/sessions.json");
+$session_list = json_decode($session_list, true);
+
+for ($i = 0; $i < count($session_list); $i++) {
+       for ($k = 0; $k < count($new_projects); $k++) {
+           if(!array_key_exists($new_projects[$k]["id"], $session_list[$i]["projects"])) {
+                array_push($session_list[$i]["projects"], $new_projects[$k]["id"]);
+           }
+       }
+   }
+}
+
 file_put_contents("./data/projects.json", json_encode($project_list));
 
 echo json_encode($project_list);
+http_response_code(200);
 
 ?>
