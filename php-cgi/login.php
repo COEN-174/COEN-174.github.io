@@ -6,53 +6,52 @@
 */
 
 // Get list of saved users
-$users_file = file_get_contents('./users');
+$users_file = file_get_contents('./data/users.json');
 $users = json_decode($users_file, true);
 
-// Get username & password
-$form_login = file_get_contents("php://input");
-$form_login = json_decode($form_login,true);
-$form_username = $form_login["username"];
-$form_password = $form_login["password"];
+// Get username
+$form_username = $_GET["username"];
 
-// Check if username & password are valid
+// Check if username is valid
 $this_user = [];
 $found = False;
-for($i = 0; $i < count($users); $i++) {
-    $user = (Array)$users[$i]; //Treat each index in the array as an array(json obj)
+foreach($users as &$user) {
     if ($form_username == $user["username"]) {
-        if ($form_password == $user["password"]) {
-            $this_user = $user; // Copy user credentials from file
-            unset($this_user["password"]); // Never return passwords
-            $auths_dir = "auths/";
-            // Check if there is an auths directory
-            if (!(file_exists($auths_dir))) {
-                $oldmask = umask(0);
-                mkdir($auths_dir, 0777, true);
-                umask($oldmask);
-            }
-            $fp = fopen($auths_dir . $this_user["username"], "w");
-            // This person's auth
-            $auth = bin4hex(random_bytes(5));
-            fwrite($fp, (string)$auth);
-            $this_user["rest_auth"] = $auth;
-            // Return user's credentials
-            /*   Note that only judges are given sessions
-                {
-                    "name":"Darren Atkinson",
-                    "username":"datkinson",
-                    "type":["judge","advisor"],
-                    "rest_auth":"23409dsad",
-                    "session":["Computer Engineering","1"]
-                }
-            */
-            echo json_encode($this_user);
-            fclose($fp);
-            $found = True;
-            break;
+        $this_user = $user; // Copy user credentials from file
+        $auths_dir = "auths/";
+        // Check if there is an auths directory
+        if (!(file_exists($auths_dir))) {
+            $oldmask = umask(0);
+            mkdir($auths_dir, 0777, true);
+            umask($oldmask);
         }
+        $fp = fopen($auths_dir . $this_user["username"], "w");
+        // This person's auth
+        $auth = hash('ripemd160', $this_user["name"]);
+        fwrite($fp, (string)$auth);
+        $this_user["name"] = $user["name"];
+        // Return user's credentials
+        /*   Note that only judges are given sessions
+            {
+                "id":"datkinson",
+                "name":"Darren Atkinson",
+                "type":["judge","advisor"],
+                "rest_auth":"23409dsad",
+                "session":["Computer Engineering","1"]
+            }
+        */
+        $returnobj["user"] = $this_user;
+        $returnobj["found"] = True;
+        echo json_encode($returnobj);
+        fclose($fp);
+        $found = True;
+        break;
     }
 }
+if (!$found) {
+    $returnobj["found"] = False;
+    echo json_encode($returnobj);
+}
 
-$found ? http_response_code(200) : http_response_code(403);
+http_response_code(200);
 ?>

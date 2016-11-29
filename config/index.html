@@ -7,30 +7,144 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
     <link rel="import" href="../common.html">
     <link rel="stylesheet" type="text/css" href="../css/common.css" />
-
+    <link rel="stylesheet" type="text/css" href="../css/config.css" />
+    <link rel="import" type="text/html" id="advisor_form_template" href="edit-advisor.html">
+    <script src="config.js"></script>
 </head>
 <body unresolved>
-    <dom-module id="app-main">
-        <template>
-            <paper-header-panel>
-                <div class="paper-header">Header</div>
-                <div>Content goes here...</div>
+<dom-module id="app-main">
+    <template>
+        <paper-drawer-panel>
+            <paper-header-panel drawer id="drawer-panel">
+                <paper-toolbar>
+                    <iron-image sizing="contain" id="hero_image" src="../img/hero_logo_white.png"></iron-image>
+                </paper-toolbar>
+                <template is="dom-bind" id="type_sidebar">
+                    <paper-menu id="sidebar_menu">
+                        <template is="dom-repeat" items="{{type_items}}">
+                            <paper-item class="cell noselect">
+                                {{item}}
+                                <paper-ripple></paper-ripple>
+                            </paper-item>
+                            <div class="cell_separator"></div>
+                        </template>
+                    </paper-menu>
+                </template>
             </paper-header-panel>
-        </template>
-        <script>
-            document.addEventListener('WebComponentsReady', function() {
-                Polymer({
-                    is: "app-main",
-                    ready: function() {
-                        userObj(function(_) {
-                            if (!_userIsAdmin) {
-                                window.location = "../";
-                            }
-                        });
-                    }
-                });
+            <paper-header-panel main>
+                <paper-toolbar>
+                    <paper-icon-button id="menu_button" icon="menu" paper-drawer-toggle></paper-icon-button>
+                    <paper-button id="back_button" on-tap="go_back">Back to Project View</paper-button>
+                </paper-toolbar>
+                <div id="main_content_container" style="display: flex;">
+                    <template is="dom-bind" id="secondary_sidebar">
+                        <paper-menu id="secondary_sidebar_menu">
+                            <template is="dom-repeat" items="{{type_items}}">
+                                <paper-item class="cell noselect">
+                                    {{item.name}}
+                                    <paper-ripple></paper-ripple>
+                                </paper-item>
+                                <div class="cell_separator"></div>
+                            </template>
+                        </paper-menu>
+                    </template>
+                    <div id="content_form_view"></div>
+                </div>
+
+
+                <paper-toast id="successToast" text="Form Submitted"></paper-toast>
+            </paper-header-panel>
+        </paper-drawer-panel>
+    </template>
+    <script>
+        var _userId;
+        var _selectedId;
+        var login_location = "../";
+        var objArray = [];
+
+        document.addEventListener('WebComponentsReady', function() {
+            Polymer({
+                is: "app-main",
+                ready: function() {
+                    var type_sidebar = document.querySelector('#type_sidebar');
+                    type_sidebar.type_items = ["Judges", "Advisors", "Sessions", "Projects"];
+                    getAdvisors("0", function(_) {
+                        _finishPageSetup();
+                    });
+                },
+                go_back: function() {
+                    window.location = "../";
+                }
             });
-        </script>
-    </dom-module>
+        });
+        function _finishPageSetup() {
+            var menu = document.getElementById('sidebar_menu');
+            menu.addEventListener("iron-select", function(){
+                _selectedIdx = menu.selected/2;
+                var sidebar_menu = document.querySelector('#secondary_sidebar');
+                sidebar_menu.type_items = [];
+                switch(_selectedIdx) {
+                    case 0:
+                        getJudges("0", function(judges) {
+                            objArray = judges;
+                            sidebar_menu.type_items = objArray;
+                        });
+                    case 1:
+                        getAdvisors("0", function(advisors) {
+                            objArray = advisors;
+                            sidebar_menu.type_items = objArray;
+                        });
+                        break;
+                    case 2:
+                        getSessions("0", function(sessions) {
+                            objArray = sessions;
+                            sidebar_menu.type_items = objArray;
+                        });
+                        break;
+                    case 3:
+                        getProjects("0", function(projects) {
+                            objArray = projects;
+                            sidebar_menu.type_items = objArray;
+                        });
+                        break;
+                    default:
+                }
+            });
+            var secondary_sidebar_menu = document.getElementById('secondary_sidebar_menu');
+            secondary_sidebar_menu.addEventListener("iron-select", function(){
+                _selectedIdx = menu.selected/2;
+                var _internalIdx = secondary_sidebar_menu.selected/2;
+                _selectedId = objArray[_internalIdx]["id"];
+
+                var form_clone;
+                document.querySelector('#content_form_view').innerHTML = "";
+                switch(_selectedIdx) {
+                    case 0:
+                        break;
+                    case 1:
+                        var form_template_import = document.querySelector('#advisor_form_template');
+                        var form_template_content = form_template_import.import.querySelector('#advisor_form');
+                        form_clone = form_template_content.cloneNode(true);
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    default:
+                }
+                document.querySelector('#content_form_view').appendChild(form_clone);
+                populate();
+            });
+        }
+        if (typeof(Storage) == "undefined") { }
+        _userId = sessionStorage.getItem("user_id");
+        if (_userId == null) {
+            window.location = login_location;
+        }
+    </script>
+</dom-module>
+<app-main></app-main>
 </body>
 </html>

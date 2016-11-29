@@ -1,0 +1,17 @@
+#secondary_sidebar_menu {
+    flex: 1;
+}
+#content_form_view {
+    flex: 1;
+}
+.config_toolbar_header_text {
+    font-family: "Roboto";
+}
+.cell_separator {
+    height: 1px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.1);
+}
+.cell {
+    height: 60px;
+}

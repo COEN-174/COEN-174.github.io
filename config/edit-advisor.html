@@ -1,0 +1,35 @@
+<meta charset="UTF-8">
+<div id="advisor_form" style="padding: 20px;">
+    <style>
+        #bar_hero_image {
+            width: 100px;
+            height: 100px;
+            display: block;
+            margin: auto;
+            padding-top: 20px;
+        }
+    </style>
+    <iron-image sizing="contain" id="bar_hero_image" src="./../img/generic_user.jpg"></iron-image>
+    <paper-input id="name_input" class="flexchild" label="Name"></paper-input>
+    <paper-input-autocomplete-chips id="project_chooser" label="Projects" local-candidates="{{project_items}}"></paper-input-autocomplete-chips>
+</div>
+<script>
+    function populate() {
+        getAdvisor("0", _selectedId, function(object) {
+            if (object) {
+                document.querySelector("#name_input").placeholder = object.name;
+                var projArray = [];
+                for (var projectId in object.projects) {
+                    getProject("0", object.projects[projectId], function(project) {
+                        console.log(project);
+                        var projectObj = {text: project.name, readOnly: false};
+                        projArray.push(projectObj);
+                        if (projArray.length == object.projects.length) {
+                            document.getElementById("project_chooser").selectedObjects = [projectObj];
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>

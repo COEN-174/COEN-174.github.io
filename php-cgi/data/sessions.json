@@ -1,0 +1,14 @@
+[
+  {
+    "id":"000",
+    "department_id":"Computer Engineering",
+    "department_substr":"1",
+    "projects":["asdf","ghjk","qwer"]
+  },
+  {
+    "id":"001",
+    "department_id":"Electrical Engineering",
+    "department_substr":"1",
+    "projects":["asdf","ghjk","qwer"]
+  }
+]

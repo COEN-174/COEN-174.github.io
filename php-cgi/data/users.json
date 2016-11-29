@@ -1,0 +1,32 @@
+[
+  {
+    "username":"sballmer",
+    "name":"Steve Ballmer",
+    "acl":"judge",
+    "session":["Computer Engineering","1"]
+  },
+  {
+    "username":"datkinson",
+    "name":"Darren Atkinson",
+    "acl":"advisor",
+    "session":["Computer Engineering","1"]
+  },
+  {
+    "username":"aamer",
+    "name":"Ahmed Amer",
+    "acl":"advisor",
+    "session":["Computer Engineering","2"]
+  },
+  {
+    "username":"rdavis",
+    "name":"Ruth Davis",
+    "acl":"advisor",
+    "session":["Electrical Engineering","1"]
+  },
+  {
+    "username":"shane",
+    "name":"Shane Wibeto",
+    "acl":"admin",
+    "session":[]
+  }
+]

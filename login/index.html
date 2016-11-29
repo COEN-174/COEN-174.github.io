@@ -10,79 +10,100 @@
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <style is="custom-style">
-        .flex-horizontal {
-            @apply(--layout-horizontal);
-        }
         .flexchild {
             @apply(--layout-flex);
+        }
+        paper-spinner-lite.custom {
+            --paper-spinner-color: #9D2235;
         }
     </style>
 </head>
 <body unresolved>
-    <div id="container">
-        <div id="rotate_container">
-            <div class="input_label" class="noselect" id="welcome_banner">Sign in</div>
-            <div class="input_label" class="noselect" id="name_banner"></div>
-        </div>
+<div id="container">
+    <div id="rotate_container">
+        <div class="input_label" class="noselect" id="welcome_banner">Sign in</div>
+        <div class="input_label" class="noselect" id="name_banner"></div>
+    </div>
 
-        <div id="passcode_input" class="container flex-horizontal">
-            <paper-input class="flexchild" label="Passcode"></paper-input>
+    <div id="passcode_input" class="container">
+        <paper-input id="login_input" class="flexchild" label="Passcode"></paper-input>
+
+        <div id="submit_container">
             <paper-icon-button disabled=true id="submit_button" icon="arrow-forward" title="submit"></paper-icon-button>
+            <paper-spinner-lite class="custom" active id="login_activity_indicator" hidden=true></paper-spinner-lite>
         </div>
     </div>
-    <script>
-        if (typeof(Storage) == "undefined") { }
-        sessionStorage.removeItem("user_id");
+</div>
+<script>
+    if (typeof(Storage) == "undefined") { }
+    sessionStorage.removeItem("user_id");
 
-        var userObj;
-        document.querySelector('paper-icon-button').addEventListener('click', function(event) {
-            if (userObj) {
-                if (typeof(Storage) == "undefined") { }
-                sessionStorage.setItem("user_id", userObj.id);
-                window.location = ".";
-            }
-        });
-        document.querySelector('paper-input').addEventListener('keyup', function(event) {
-            searchJudgesAuth(event.target.value, function(result) {
-                if (result) {
-                    document.getElementById("name_banner").innerHTML = result.name;
-                    applyStateDisabled(false);
-                    userObj = result;
-                } else {
-                    searchAdvisorsAuth(event.target.value, function(advisorObj) {
-                        if (advisorObj) {
-                            document.getElementById("name_banner").innerHTML = advisorObj.name;
-                            applyStateDisabled(false);
-                            userObj = advisorObj;
-                        } else {
-                            searchAdminAuth(event.target.value, function(adminObj) {
-                                if (adminObj) {
-                                    document.getElementById("name_banner").innerHTML = adminObj.name;
-                                    applyStateDisabled(false);
-                                    userObj = adminObj;
-                                } else {
-                                    applyStateDisabled(true);
-                                    userObj = null;
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        });
-        function applyStateDisabled(disabled) {
-            var rotate_container = document.getElementById("rotate_container");
-            var submit_button = document.getElementById("submit_button");
-            if (disabled) {
-                submit_button.disabled = true;
-                submit_button.classList.remove('submit_button_enabled');
-                rotate_container.classList.remove('container_rotated');
-            } else {
-                submit_button.disabled = false;
-                submit_button.classList.add('submit_button_enabled');
-                rotate_container.classList.add('container_rotated');
-            }
+    var stateDisabled = true;
+    var stateLoading = false;
+
+    document.querySelector('paper-icon-button').addEventListener('click', function(event) {
+        var login_input = document.getElementById("login_input");
+        if (!stateLoading) {
+            applyStateLoading(true);
         }
-    </script>
+        var rotate_container = document.getElementById("rotate_container");
+        if (rotate_container.classList.contains('container_rotated')) {
+            rotate_container.classList.remove('container_rotated');
+        }
+        tryAuth(login_input.value, function(result) {
+            if (result.found) {
+                var userObj = result.user;
+                document.getElementById("name_banner").innerHTML = userObj.name;
+                rotate_container.classList.add('container_rotated');
+                setTimeout(function() {
+                    if (typeof(Storage) == "undefined") { }
+                    sessionStorage.setItem("user_id", userObj.name);
+                    window.location = ".";
+                }, 1000);
+            } else {
+                if (stateLoading) {
+                    applyStateLoading(false);
+                    applyStateDisabled(true);
+                }
+                document.getElementById("name_banner").innerHTML = "Not Found";
+                rotate_container.classList.add('container_rotated');
+                setTimeout(function() {
+                    rotate_container.classList.remove('container_rotated');
+                }, 3000);
+            }
+        });
+    });
+
+    document.querySelector('paper-input').addEventListener('keyup', function(event) {
+        if (event.target.value.length > 0 && stateDisabled) {
+            applyStateDisabled(false);
+        } else if (event.target.value.length === 0 && !stateDisabled) {
+            applyStateDisabled(true);
+        }
+    });
+    function applyStateDisabled(disabled) {
+        stateDisabled = disabled;
+        var submit_button = document.getElementById("submit_button");
+        if (disabled) {
+            submit_button.disabled = true;
+            submit_button.classList.remove('submit_button_enabled');
+        } else {
+            submit_button.disabled = false;
+            submit_button.classList.add('submit_button_enabled');
+        }
+    }
+    function applyStateLoading(loading) {
+        stateLoading = loading;
+        var submit_button = document.getElementById("submit_button");
+        var login_activity_indicator = document.getElementById("login_activity_indicator");
+        if (loading) {
+            submit_button.hidden = true;
+            login_activity_indicator.hidden = false;
+        } else {
+            submit_button.hidden = false;
+            login_activity_indicator.hidden = true;
+        }
+    }
+</script>
 </body>
 </html>
