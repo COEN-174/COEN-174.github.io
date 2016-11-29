@@ -1,8 +1,6 @@
 <?php
 //Takes session ID's to remove them
-$data = file_get_contents("php://input");
-$data = json_encode($data, true);
-
+$data = $_GET['id'];
 if(!file_exists("./data/sessions.json")) {
     $oldmask = umask(0);
     $fp = fopen("./data/sessions.json", "w");

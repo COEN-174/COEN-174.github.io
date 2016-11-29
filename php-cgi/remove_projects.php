@@ -4,9 +4,7 @@
 */
 
 // Takes an array of UIDs
-$data = file_get_contents("php://input");
-$data = json_decode($data, true);
-
+$data = $_GET['id'];
 if(!isset($data)) {
     echo "No projects defined...\n";
     http_response_code(403);
@@ -19,7 +17,7 @@ if(!file_exists("./data/projects.json")) {
     fclose($fp);
     umask($oldmask);
 }
-//Sanitization is important
+//Sanitization is impornt
 for($i = 0; $i < count($data); $i++) {
     $data = trim($data[$i]);
 }

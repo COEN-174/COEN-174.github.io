@@ -4,9 +4,7 @@
     this script removes users from users file
 */
 //Data should be array of UIDs
-$data = file_get_contents("php://input");
-$data = json_decode($data, true);
-
+$data = $_GET['id'];
 if(!isset($data)) {
     echo "No UIDs defined...";
     http_response_code(403);

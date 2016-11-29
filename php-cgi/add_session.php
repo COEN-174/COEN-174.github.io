@@ -2,8 +2,10 @@
 /*
     This script adds sessions to sessions.json
 */
-$data = file_get_contents("php://input");
-$data = json_decode($data, true);
+$data = [];
+$data['session_id'] = $_GET['session_id'];
+$data['session_substr'] = $_GET['session_substr'];
+$data['projects'] = $_GET['projects'];
 
 $check_keys = ["session_id","session_substr","projects"];
 foreach ($data as $session) {
@@ -27,7 +29,7 @@ $new_sessions = $data; //array of sessions
 
 for ($i = 0; $i < count($new_sessions); $i++) {
     if(!isset($new_sessions["id"])) {
-        $new_sessions["id"] = bin2hex(random_bytes(6));
+        $new_sessions["id"] = bin2hex(openssl_random_pseudo_bytes(6));
     }
 }
 

@@ -1,7 +1,7 @@
 <?php
-$data = file_get_contents("php://input");
-$data = json_decode($data, true);
-
+//$data = file_get_contents("php://input");
+//$data = json_decode($data, true);
+/*
 $check_keys = ["advisors","session_id","session_substr","project","members"];
 for ($i = 0; $i < count($data); $i++) {
 foreach ($check_keys as $key) {
@@ -12,7 +12,13 @@ foreach ($check_keys as $key) {
     }
 }
 }
-
+*/
+$data = [];
+$data['advisors'] = $_GET['advisors'];
+$data['session_id'] = $_GET['session_id'];
+$data['session_substr'] = $_GET['session_substr'];
+$data['project'] = $_GET['project'];
+$data['members'] = $_GET['members'];
 //echo var_dump($data);
 if (!file_exists("./data/projects.json")) {
     //echo "Making projects file\n";
@@ -27,7 +33,7 @@ $new_projects = $data;
 $check_ids = []; //Used to update sessions
 for ($i = 0; $i < count($new_projects); $i++) {
     if(!isset($new_projects[$i]["id"])) {
-        $new_projects[$i]["id"] = bin2hex(random_bytes(6));
+        $new_projects[$i]["id"] = bin2hex(openssl_random_pseudo_bytes(6));
         array_push($check_ids, $new_projects[$i]["id"]);
     }
 }

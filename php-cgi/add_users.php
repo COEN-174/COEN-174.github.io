@@ -5,10 +5,17 @@
     and adds them to ./data/users.json
 */
 
-$data = file_get_contents("php://input");
+//$data = file_get_contents("php://input");
 //echo var_dump($data);
-$data = json_decode($data, true);
+//$data = json_decode($data, true);
+$data = [];
+$data['username'] = $_GET['username'];
+$data['name'] = $_GET['name'];
+$data['acl'] = $_GET['acl'];
+$data['session_id'] = $_GET['session_id'];
+$data['session_substr'] = $_GET['session_substr'];
 $check_keys = ["username","name","acl","session_id","session_substr"];
+/*
 foreach ($data as $new_user) {
     for ($i = 0; $i < count($check_keys); $i++) {
         if (!isset($new_user["$check_keys[$i]"])) {
@@ -25,7 +32,7 @@ for ($i = 0; $i < count($data); $i++) {
         $data[$i][$j] = trim($data[$i][$j]);
     }
 }
-
+*/
 if (!file_exists("./data/users.json")) {
     //echo "judge file DNE";
     $oldmask = umask(0);
@@ -39,7 +46,7 @@ $new_users = $data; // Array of users
 //Give each user a UID
 for ($i = 0; $i < count($new_users); $i++) {
     if(!isset($new_users[$i]["id"])) {
-        $new_users[$i]["id"] = bin2hex(random_bytes(6));
+        $new_users[$i]["id"] = bin2hex(openssl_random_pseudo_bytes(6));
     }
 }
 //  Judges are stored in lists keyed by session
