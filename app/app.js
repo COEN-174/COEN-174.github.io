@@ -1,4 +1,4 @@
-var _apiBaseURL = "./php-cgi/";
+var _apiBaseURL = "./../php-cgi/";
 
 function _doGet(path, data, callback) {
     var request = new XMLHttpRequest();

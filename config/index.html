@@ -65,6 +65,9 @@
             </paper-header-panel>
         </paper-drawer-panel>
     </template>
+    <div id="form_loading_state">
+        <paper-spinner-lite active id="form_activity_indicator"></paper-spinner-lite>
+    </div>
     <script>
         var _userId;
         var _selectedId;
@@ -116,44 +119,44 @@
                 _selectedIdx = menu.selected/2;
                 var sidebar_menu = document.querySelector('#secondary_sidebar');
                 sidebar_menu.type_items = [];
+                var secondary_sidebar_menu = document.getElementById('secondary_sidebar_menu');
+                secondary_sidebar_menu.selected = null;
                 switch(_selectedIdx) {
                     case 0:
-                        applyStateLoading(true);
+                        applySecondarySideBarStateLoading(true);
                         getJudges("0", function(judges) {
                             objArray = judges;
                             sidebar_menu.type_items = objArray;
-                            console.log(objArray);
-                            applyStateLoading(false);
+                            applySecondarySideBarStateLoading(false);
                         });
                         break;
                     case 1:
-                        applyStateLoading(true);
+                        applySecondarySideBarStateLoading(true);
                         getAdvisors("0", function(advisors) {
                             objArray = advisors;
                             sidebar_menu.type_items = objArray;
-                            console.log(objArray);
-                            applyStateLoading(false);
+                            applySecondarySideBarStateLoading(false);
                         });
                         break;
                     case 2:
-                        applyStateLoading(true);
+                        applySecondarySideBarStateLoading(true);
                         getSessions("0", function(sessions) {
                             objArray = sessions;
                             sidebar_menu.type_items = objArray;
-                            applyStateLoading(false);
+                            applySecondarySideBarStateLoading(false);
                         });
                         break;
                     case 3:
-                        applyStateLoading(true);
+                        applySecondarySideBarStateLoading(true);
                         getProjects("0", function(projects) {
                             objArray = projects;
                             sidebar_menu.type_items = objArray;
-                            applyStateLoading(false);
+                            applySecondarySideBarStateLoading(false);
                         });
                         break;
                     default:
                 }
-                var content_form_view = document.querySelector('#content_form_view').removeChild();
+                var content_form_view = document.querySelector('#content_form_view');
                 if (content_form_view.hasChildNodes()) {
                     content_form_view.removeChild(content_form_view.lastChild);
                 }
@@ -167,20 +170,25 @@
 
                 var form_clone;
                 document.querySelector('#content_form_view').innerHTML = "";
+                applyFormStateLoading(true);
                 switch(_selectedIdx) {
                     case 0:
                         var form_template_import = document.querySelector('#judge_form_template');
                         var form_template_content = form_template_import.import.querySelector('#judge_form');
                         form_clone = form_template_content.cloneNode(true);
                         document.querySelector('#content_form_view').appendChild(form_clone);
-                        populate_judge();
+                        populate_judge(function() {
+                            applyFormStateLoading(false);
+                        });
                         break;
                     case 1:
                         var form_template_import = document.querySelector('#advisor_form_template');
                         var form_template_content = form_template_import.import.querySelector('#advisor_form');
                         form_clone = form_template_content.cloneNode(true);
                         document.querySelector('#content_form_view').appendChild(form_clone);
-                        populate_advisor();
+                        populate_advisor(function() {
+                            applyFormStateLoading(false);
+                        });
                         break;
                     case 2:
 
@@ -190,14 +198,14 @@
                         break;
                     default:
                 }
-                var content_form_view = document.querySelector('#content_form_view');
-                if (stateLoading) {
-                    content_form_view.removeChild(content_form_view.lastChild);
-                }
+//                var content_form_view = document.querySelector('#content_form_view');
+//                if (stateLoading) {
+//                    content_form_view.removeChild(content_form_view.lastChild);
+//                }
             });
         }
         var stateLoading = false;
-        function applyStateLoading(loading) {
+        function applySecondarySideBarStateLoading(loading) {
             stateLoading = loading;
             var submit_button = document.getElementById("add-button");
             var login_activity_indicator = document.getElementById("config_activity_indicator");
@@ -207,6 +215,25 @@
             } else {
                 submit_button.hidden = false;
                 login_activity_indicator.hidden = true;
+            }
+        }
+        var formStateLoading = false;
+        var _form_loading_state;
+        function applyFormStateLoading(loading) {
+            formStateLoading = loading;
+            if (!_form_loading_state) {
+                _form_loading_state = document.getElementById("form_loading_state");
+            }
+            var form_loading_state = _form_loading_state;
+            var content_form_view = document.querySelector('#content_form_view');
+            if (loading) {
+                if (content_form_view.firstChild) {
+                    content_form_view.insertBefore(form_loading_state, content_form_view.firstChild);
+                } else {
+                    content_form_view.appendChild(form_loading_state);
+                }
+            } else {
+                content_form_view.removeChild(form_loading_state);
             }
         }
         if (typeof(Storage) == "undefined") { }

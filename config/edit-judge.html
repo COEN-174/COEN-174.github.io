@@ -26,7 +26,7 @@
     <paper-button raised class="form-button" onclick="submitForm()">Submit</paper-button>
 </div>
 <script>
-    function populate_judge() {
+    function populate_judge(callback) {
         var scope = document.querySelector('#judge-data-entry');
         scope.chips = [
             { id: 'apples', name: 'Apples' }
@@ -50,7 +50,7 @@
             if (object) {
                 document.querySelector("#name_input").placeholder = object.name;
                 document.querySelector("#login_input").placeholder = object.username;
-
+                callback();
             }
         });
     }

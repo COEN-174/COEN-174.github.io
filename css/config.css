@@ -5,6 +5,11 @@
 #content_form_view {
     flex: 1;
 }
+#form_loading_state {
+    height: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
 #main_content_container {
     height: 100%;
 }

@@ -75,7 +75,7 @@ function _doGet(path, data, callback) {
     request.open("GET", url, true);
     request.setRequestHeader("Content-Type", "application/json");
     request.onreadystatechange = function() {
-        if (request.readyState === XMLHttpRequest.DONE) {
+        if (request.readyState === XMLHttpRequest.DONE && request.readyState === XMLHttpRequest.DONE) {
             console.log(request.responseText);
             if (request.status === 200) {
                 var data = request.responseText ? JSON.parse(request.responseText) : null;
