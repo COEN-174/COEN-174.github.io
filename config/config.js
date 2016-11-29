@@ -101,6 +101,12 @@ function getProjects(auth_id, callback) {
     });
 }
 
+function getSession(auth_id, identifier, callback) {
+    _doGet("get_sessions.php", {"auth_id": auth_id, "id": identifier}, function (object) {
+        callback(object.data.session);
+    });
+}
+
 function getSessions(auth_id, callback) {
     _doGet("get_sessions.php", {"auth_id": auth_id}, function(object) {
         if (object.success && object.data) {

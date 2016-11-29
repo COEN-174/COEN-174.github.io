@@ -31,21 +31,7 @@ function _doGet(path, data, callback) {
 }
 
 function _doPost(path, data, callback) {
-    var request = new XMLHttpRequest();
-    var params = JSON.stringify(data);
-    console.log(data);
-    request.open("POST", _apiBaseURL + path, true);
-    request.setRequestHeader("Content-type", "application/json");
-    request.onreadystatechange = function() {
-        if (request.readyState === XMLHttpRequest.DONE) {
-            if (request.status === 200) {
-                callback({"data": JSON.parse(request.responseText), "success": true});
-            } else {
-                callback({"success": false});
-            }
-        }
-    }
-    request.send(params);
+    _doGet(path, data, callback);
 }
 
 var judgesFile = "json/judges.json";

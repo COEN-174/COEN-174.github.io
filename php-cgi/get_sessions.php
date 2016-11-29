@@ -28,8 +28,9 @@ if (isset($_GET['id'])) {
     $returnarr = array();
     foreach($sessions as &$session) {
         $sessionObj["id"] = $session["id"];
-        $sessionObj["department"] = $session["department_id"];
-        $sessionObj["name"] = $session["department_id"] . " " . $session["department_substr"];
+        $sessionObj["session"] = $session["session_id"];
+        $sessionObj["name"] = $session["session_id"] . " " . $session["session_substr"];
+        $sessionObj["substr"] = $session["session_substr"];
         array_push($returnarr, $sessionObj);
     }
     $returnobj["sessions"] = $returnarr;

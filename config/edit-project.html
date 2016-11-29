@@ -55,7 +55,7 @@
         var scope = document.querySelector('#project-data-entry');
         var name = document.getElementById("name_input").value;
         var advisor = document.getElementById("advisor_input").value;
-        var members = scope.chips.map(function(obj){return obj.id});
+        var members = scope.chips.map(function(obj){return obj.name});
 
         if (name == null || name.length == 0) {incompleteToast.open(); return;}
 

@@ -26,9 +26,7 @@
 <script>
     function populate_session(callback) {
         var scope = document.querySelector('#session-data-entry');
-        scope.chips = [
-            { id: 'apples', name: 'Apples' }
-        ];
+        scope.chips = [];
         document.getElementById('name_input').source = [
             {name: 'Bioengineering'},
             {name: 'Civil Engineering'},
@@ -51,18 +49,18 @@
             teamInput.clear();
         });
         if (_selectedId) {
-            getProject("0", _selectedId, function(object) {
+            getSession("0", _selectedId, function(object) {
                 console.log(object);
+                callback();
                 if (object) {
-                    document.querySelector("#name_input").placeholder = object.name;
-                    document.querySelector("#login_input").placeholder = object.username;
-                    callback();
+                    document.querySelector("#name_input").placeholder = object.session_id;
+                    document.querySelector("#substr_input").placeholder = object.session_substr;
                 }
             });
         }
     }
     function submit_session() {
-        var department_id = document.querySelector("#name_input").value;
+        var department_id = document.querySelector("#name_input").value.name;
         var department_substr = document.querySelector("#substr_input").value;
         var scope = document.querySelector('#session-data-entry');
         var reduced_projects = scope.chips.map(function(obj){return obj.id});
@@ -71,15 +69,16 @@
 
         var newSessionObj = {
             "id": _selectedId ? _selectedId : "",
-            "department_id": department_id.name,
-            "department_substr": department_substr,
+            "session_id": department_id,
+            "session_substr": department_substr,
             "projects": reduced_projects
         }
         setSession("0",newSessionObj, function(object) {
             if (object.success) {
-                successToast.open();
+                document.querySelector('#successToast').open();
+                refreshSecondarySidebar();
             } else {
-                failureToast.open();
+                document.querySelector('#failureToast').open();
             }
         })
     }
