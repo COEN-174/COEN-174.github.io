@@ -57,7 +57,8 @@
                 rotate_container.classList.add('container_rotated');
                 setTimeout(function() {
                     if (typeof(Storage) == "undefined") { }
-                    sessionStorage.setItem("user_id", userObj.name);
+                    console.log(userObj);
+                    sessionStorage.setItem("user_id", userObj.id);
                     window.location = ".";
                 }, 1000);
             } else {

@@ -56,10 +56,8 @@ function tryAuth(identifier, callback) {
 
 function getProjectsList(identifier, callback) {
     _doGet("get_projects.php", {"user_id": identifier}, function(object) {
-        if (object.success && object.data) {
-            callback(object.data);
-        }
-    })
+        callback(object.data.projects);
+    });
 }
 
 

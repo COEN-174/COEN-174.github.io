@@ -30,6 +30,7 @@ if (isset($_GET["id"])) {
     $users_file = file_get_contents('./data/users.json');
     $users = json_decode($users_file, true);
     $user_id = $_GET["user_id"];
+    $curr_user;
     foreach($users as &$user) {
         if ($user_id == $user["id"]) {
             $curr_user = $user;

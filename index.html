@@ -42,7 +42,7 @@
                     <paper-menu id="sidebar_menu" selected="0">
                         <template is="dom-repeat" items="{{project_list}}">
                             <paper-item class="sidebar_cell noselect">
-                                {{item.name}}
+                                {{item.project}}
                                 <paper-ripple></paper-ripple>
                             </paper-item>
                             <div class="sidebar_cell_separator"></div>
@@ -101,10 +101,12 @@
                             help_dialog.open();
                         }
                     });
-                    projectArr(function(result) {
+                    getProjectsList(_userId, function(result) {
+                        console.log(result);
                         if (result.length) {
                             var projects_sidebar = document.querySelector('#projects_sidebar');
                             projects_sidebar.project_list = result;
+                            _projectArr = result;
                             finishPageSetup();
                         }
                     });
